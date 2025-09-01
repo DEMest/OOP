@@ -24,3 +24,25 @@ jacocoTestReport {
         xml.required = true
     }
 }
+
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'idea'
+}
+
+group = 'ru.nsu.cheremushkin'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
