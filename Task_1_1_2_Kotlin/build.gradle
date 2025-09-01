@@ -1,0 +1,42 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.24'
+    id 'application'
+    id 'jacoco'
+}
+
+group = 'ru.nsu.smolin'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit5"
+    testImplementation "io.mockk:mockk:1.13.12"
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+application {
+    mainClass = 'ru.nsu.smolin.MainKt'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
