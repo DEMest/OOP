@@ -1,4 +1,4 @@
-package ru.nsu.shadrina;
+package ru.nsu.smolin;
 
 import org.junit.jupiter.api.Test;
 

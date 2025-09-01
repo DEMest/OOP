@@ -1,10 +1,24 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'idea'
 }
 
-group = 'ru.nsu.shadrina'
+group = 'ru.nsu.smolin'
 version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 repositories {
     mavenCentral()
@@ -25,24 +39,3 @@ jacocoTestReport {
     }
 }
 
-plugins {
-    id 'java'
-    id 'jacoco'
-    id 'idea'
-}
-
-group = 'ru.nsu.cheremushkin'
-version = '1.0-SNAPSHOT'
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-idea {
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
-}

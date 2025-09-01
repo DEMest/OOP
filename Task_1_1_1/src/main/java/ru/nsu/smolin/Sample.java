@@ -1,4 +1,4 @@
-package ru.nsu.shadrina;
+package ru.nsu.smolin;
 
 /**
  * Sample class to simulate 1.1 task functionality
