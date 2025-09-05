@@ -2,9 +2,7 @@ package ru.nsu.smolin;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,10 +39,5 @@ class SampleTest {
     void checkMain() {
         Sample.main(new String[] {});
         assertTrue(true);
-    }
-
-    @Test
-    void doINeedToCheckDefaultConstructor() {
-        final var sampleInstance = new Sample();
     }
 }

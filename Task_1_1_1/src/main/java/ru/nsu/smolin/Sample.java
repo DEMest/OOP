@@ -1,13 +1,11 @@
 package ru.nsu.smolin;
 
 class MaxHeap {
-    private int cap;
     public int[] arr;
     private int hsize;
 
     public MaxHeap(int n) {
-        cap = n;
-        arr = new int[cap];
+        arr = new int[n];
         hsize = 0;
     }
 
@@ -29,10 +27,7 @@ class MaxHeap {
         return 2 * a + 1;
     }
 
-    public int insert(int a) {
-        if(hsize == cap) {
-            return 0;
-        }
+    public void insert(int a) {
         int i = hsize;
         arr[i] = a;
         hsize++;
@@ -41,7 +36,6 @@ class MaxHeap {
             swap(arr, i, parentidx(i));
             i = parentidx(i);
         }
-        return 1;
     }
 
     private void heapify(int a) {
@@ -58,10 +52,6 @@ class MaxHeap {
             swap(arr, a, max);
             heapify(max);
         }
-    }
-
-    public int getMax() {
-        return arr[0];
     }
 
     public void heapsort() {
@@ -85,8 +75,8 @@ public class Sample {
         int[] arr = {2,3,1,4,5};
         int cap = arr.length;
         MaxHeap a = new MaxHeap(cap);
-        for (int i = 0; i < cap; i++) {
-            a.insert(arr[i]);
+        for (int j : arr) {
+            a.insert(j);
         }
         a.heapsort();
 
@@ -98,8 +88,8 @@ public class Sample {
     public static int[] check(int[] arr) {
         int cap = arr.length;
         MaxHeap a = new MaxHeap(cap);
-        for (int i = 0; i < cap; i++) {
-            a.insert(arr[i]);
+        for (int j : arr) {
+            a.insert(j);
         }
         a.heapsort();
         for (int i = 0; i < cap; i++) {
