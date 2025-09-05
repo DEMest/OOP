@@ -1,18 +1,110 @@
 package ru.nsu.smolin;
 
-/**
- * Sample class to simulate 1.1 task functionality
- */
-public class Sample {
-    public static void printHelloWorld() {
-        System.out.println("Hello world!");
+class MaxHeap {
+    private int cap;
+    public int[] arr;
+    private int hsize;
+
+    public MaxHeap(int n) {
+        cap = n;
+        arr = new int[cap];
+        hsize = 0;
     }
 
-    public static void main(String[] args) {
-        int n = 0;
-        for (int i = 0; i < 10; i++) {
-            n *= i;
+    private void swap(int[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+
+    private int parentidx(int a) {
+        return (a - 1) / 2;
+    }
+
+    private int right(int a) {
+        return 2 * a + 2;
+    }
+
+    private int left(int a) {
+        return 2 * a + 1;
+    }
+
+    public int insert(int a) {
+        if(hsize == cap) {
+            return 0;
         }
-        System.out.println(n);
+        int i = hsize;
+        arr[i] = a;
+        hsize++;
+
+        while (i!=0 && arr[i] > arr[parentidx(i)]) {
+            swap(arr, i, parentidx(i));
+            i = parentidx(i);
+        }
+        return 1;
+    }
+
+    private void heapify(int a) {
+        int l = left(a);
+        int r = right(a);
+        int max = a;
+        if(l < hsize && arr[l] > arr[max]) {
+            max = l;
+        }
+        if(r < hsize && arr[r] > arr[max]) {
+            max = r;
+        }
+        if(max != a) {
+            swap(arr, a, max);
+            heapify(max);
+        }
+    }
+
+    public int getMax() {
+        return arr[0];
+    }
+
+    public void heapsort() {
+        int savesize = hsize;
+
+        for (int i = hsize - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            hsize--;
+            heapify(0);
+        }
+        hsize = savesize;
+    }
+
+    public int getElem(int i) {
+        return arr[i];
+    }
+}
+
+public class Sample {
+    public static void main(String[] args) {
+        int[] arr = {2,3,1,4,5};
+        int cap = arr.length;
+        MaxHeap a = new MaxHeap(cap);
+        for (int i = 0; i < cap; i++) {
+            a.insert(arr[i]);
+        }
+        a.heapsort();
+
+        for (int i = 0; i < cap; i++) {
+            System.out.print(a.arr[i] + " ");
+        }
+    }
+
+    public static int[] check(int[] arr) {
+        int cap = arr.length;
+        MaxHeap a = new MaxHeap(cap);
+        for (int i = 0; i < cap; i++) {
+            a.insert(arr[i]);
+        }
+        a.heapsort();
+        for (int i = 0; i < cap; i++) {
+            arr[i] = a.getElem(i);
+        }
+        return arr;
     }
 }
