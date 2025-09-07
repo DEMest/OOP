@@ -11,7 +11,7 @@ class SampleTest {
         int length = arr.length;
         int[] expected = Arrays.copyOf(arr, length);
         Arrays.sort(expected);
-        int[] mysort = Sample.check(arr);
+        int[] mysort = Main.check(arr);
         assertArrayEquals(expected, mysort);
     }
 
@@ -37,7 +37,7 @@ class SampleTest {
 
     @Test
     void checkMain() {
-        Sample.main(new String[] {});
+        Main.main(new String[] {});
         assertTrue(true);
     }
 }

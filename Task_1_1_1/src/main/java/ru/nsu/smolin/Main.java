@@ -1,5 +1,8 @@
 package ru.nsu.smolin;
 
+/**
+ * Configure Maxheap & heapsort
+ */
 class MaxHeap {
     public int[] arr;
     private int hsize;
@@ -123,7 +126,10 @@ class MaxHeap {
     }
 }
 
-public class Sample {
+/**
+ * Main class to test heap
+ */
+public class Main {
     public static void main(String[] args) {
         int[] arr = {2,3,1,4,5};
         int cap = arr.length;
