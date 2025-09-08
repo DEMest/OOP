@@ -6,6 +6,7 @@ package ru.nsu.smolin;
 public class Main {
     /**
      * Application entry point.
+     *
      * @param args command-line arguments
      */
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class Main {
 
     /**
      * Checking array for tests.
+     *
      * @param arr unsorted array
      * @return sorted
      */

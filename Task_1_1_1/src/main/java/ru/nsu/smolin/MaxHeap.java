@@ -9,6 +9,7 @@ public class MaxHeap {
 
     /**
      * Initializes a new MaxHeap.
+     *
      * @param n capacity of new heap
      */
     public void maxHeap(int n) {
@@ -18,6 +19,7 @@ public class MaxHeap {
 
     /**
      * Function for swapping elements in MaxHeap.
+     *
      * @param arr A heap of elements that we want to swap
      * @param a First Element
      * @param b Second Element
@@ -31,6 +33,7 @@ public class MaxHeap {
     /**
      * Determines the parent element index of the
      * selected element index.
+     *
      * @param a Selected element index
      * @return parent elemnt index
      */
@@ -40,6 +43,7 @@ public class MaxHeap {
 
     /**
      * Returns the right child element index.
+     *
      * @param a Root element index
      * @return child element index
      */
@@ -49,6 +53,7 @@ public class MaxHeap {
 
     /**
      * Returns the left child element index.
+     *
      * @param a Root element index
      * @return child element index
      */
@@ -59,6 +64,7 @@ public class MaxHeap {
     /**
      * Implements the function to insert
      * an element into a heap.
+     *
      * @param a element you want to insert
      */
     public void insert(int a) {
@@ -66,7 +72,7 @@ public class MaxHeap {
         arr[i] = a;
         hsize++;
 
-        while (i!=0 && arr[i] > arr[parentidx(i)]) {
+        while (i != 0 && arr[i] > arr[parentidx(i)]) {
             swap(arr, i, parentidx(i));
             i = parentidx(i);
         }
@@ -88,13 +94,9 @@ public class MaxHeap {
         int l = left(a);
         int r = right(a);
         int max = a;
-        if(l < hsize && arr[l] > arr[max]) {
-            max = l;
-        }
-        if(r < hsize && arr[r] > arr[max]) {
-            max = r;
-        }
-        if(max != a) {
+        if (l < hsize && arr[l] > arr[max]) max = l;
+        if (r < hsize && arr[r] > arr[max]) max = r;
+        if (max != a) {
             swap(arr, a, max);
             heapify(max);
         }
@@ -119,6 +121,7 @@ public class MaxHeap {
 
     /**
      * Getting element from private param of heap.
+     *
      * @param i index of getting element
      * @return element staying on index
      */
