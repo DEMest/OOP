@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"ru.nsu.smolin","l":"Main"},{"p":"ru.nsu.smolin","l":"MaxHeap"}];updateSearchResults();
