@@ -17,12 +17,12 @@ class SampleTest {
 
     @Test
     void testArray() {
-        checkSort(new int[]{1,2,3,4,5});
+        checkSort(new int[]{1, 2, 3, 4, 5});
     }
 
     @Test
     void testRandomArray() {
-        checkSort(new int[]{4,3,5,1,6,3,7});
+        checkSort(new int[]{4, 3, 5, 1, 6, 3, 7});
     }
 
     @Test

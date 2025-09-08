@@ -1,14 +1,14 @@
 package ru.nsu.smolin;
 
 /**
- * Configure Maxheap and heapsort
+ * Configure Maxheap and heapsort.
  */
 public class MaxHeap {
     public int[] arr;
     private int hsize;
 
     /**
-     * Initializes a new MaxHeap
+     * Initializes a new MaxHeap.
      * @param n capacity of new heap
      */
     public void maxHeap(int n) {
@@ -17,7 +17,7 @@ public class MaxHeap {
     }
 
     /**
-     * function for swapping elements in MaxHeap
+     * Function for swapping elements in MaxHeap.
      * @param arr A heap of elements that we want to swap
      * @param a First Element
      * @param b Second Element
@@ -30,7 +30,7 @@ public class MaxHeap {
 
     /**
      * Determines the parent element index of the
-     * selected element index
+     * selected element index.
      * @param a Selected element index
      * @return parent elemnt index
      */
@@ -39,7 +39,7 @@ public class MaxHeap {
     }
 
     /**
-     * Returns the right child element index
+     * Returns the right child element index.
      * @param a Root element index
      * @return child element index
      */
@@ -48,7 +48,7 @@ public class MaxHeap {
     }
 
     /**
-     * Returns the left child element index
+     * Returns the left child element index.
      * @param a Root element index
      * @return child element index
      */
@@ -58,7 +58,7 @@ public class MaxHeap {
 
     /**
      * Implements the function to insert
-     * an element into a heap
+     * an element into a heap.
      * @param a element you want to insert
      */
     public void insert(int a) {
@@ -81,6 +81,7 @@ public class MaxHeap {
      * and recursive going down until
      * the subtree satisfies the heap
      * property.
+     *
      * @param a Root node
      */
     private void heapify(int a) {
@@ -107,7 +108,7 @@ public class MaxHeap {
      */
     public void heapsort() {
         int savesize = hsize;
-
+        
         for (int i = hsize - 1; i > 0; i--) {
             swap(arr, 0, i);
             hsize--;
@@ -117,7 +118,7 @@ public class MaxHeap {
     }
 
     /**
-     * getting element from private param of heap
+     * Getting element from private param of heap.
      * @param i index of getting element
      * @return element staying on index
      */

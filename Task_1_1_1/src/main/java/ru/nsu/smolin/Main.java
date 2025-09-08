@@ -1,11 +1,15 @@
 package ru.nsu.smolin;
 
 /**
- * Main class to test heap
+ * Main class to test heap.
  */
 public class Main {
+    /**
+     * Application entry point.
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
-        int[] arr = {2,3,1,4,5};
+        int[] arr = {2, 3, 1, 4, 5};
         int cap = arr.length;
         MaxHeap a = new MaxHeap();
         a.maxHeap(cap);
@@ -20,7 +24,7 @@ public class Main {
     }
 
     /**
-     * checking array for tests
+     * Checking array for tests.
      * @param arr unsorted array
      * @return sorted
      */
