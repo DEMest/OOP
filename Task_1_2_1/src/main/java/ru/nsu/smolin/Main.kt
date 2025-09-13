@@ -1,12 +1,13 @@
 package ru.nsu.smolin
 
-class Sample {
-    companion object {
-    }
-
-
-}
-
 fun main() {
-    println("Hello, kotlin")
+    val deck = Deck()
+
+//    for(i in deck) {
+//        println(i)
+//    }
+    val list = mutableListOf(1,2,3,4)
+    for(i in list) {
+        println(i)
+    }
 }
