@@ -9,6 +9,11 @@ public class Card {
         this.value = value;
     }
 
+    /**
+     * Showing card in string type
+     *
+     * @return String of card [{value}{symbol}]
+     */
     public String shortString() {
         boolean redSuit = (suit == Suit.HEARTS || suit == Suit.DIAMONDS);
         String color = redSuit ? Config.RED : Config.BLACK;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Main class of game logic
+ *
+ */
 public class Blackjack {
     enum StartOutcome { CONTINUE, PLAYER_BJ, BOTH_BJ, DEALER_BJ }
 
@@ -12,6 +16,10 @@ public class Blackjack {
     private final List<Card> dealer = new ArrayList<>();
     private int round = 0;
 
+    /**
+     * Main logic and game-loop
+     *
+     */
     public void run() {
         Scanner in = new Scanner(System.in);
         Renderer.showSplash();
@@ -47,6 +55,11 @@ public class Blackjack {
         System.out.println("End of the game");
     }
 
+    /**
+     * Starting round, showing hands, ask player for action.
+     *
+     * @return
+     */
     private StartOutcome startRound() {
         round++;
         Renderer.showRoundHeader(round);

@@ -6,7 +6,6 @@ public final class Renderer {
     private Renderer() {}
 
     public static void showSplash() {
-
         System.out.println(
                 "+----------------------------------------------------+\n" +
                         "|                                                    |\n" +
@@ -24,7 +23,6 @@ public final class Renderer {
                         "+----------------------------------------------------+"
         );
     }
-
 
     public static void showHands(List<Card> player, List<Card> dealer, boolean hideDealerHole) {
         String playerStr = joinShort(player);

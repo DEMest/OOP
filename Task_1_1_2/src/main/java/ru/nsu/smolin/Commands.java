@@ -3,6 +3,17 @@ package ru.nsu.smolin;
 public final class Commands {
     private Commands() {}
 
+    /**
+     * Command parser
+     * Take - take next card
+     * Pass - Transition to dealer turn
+     * Info - Show info (hands, available actions)
+     * Exit - Instant exit out of game
+     * Empty stroke - equals to Info
+     *
+     * @param s input command
+     * @return Command from enum class
+     */
     public static Command parse(String s) {
         if(s == null) return Command.UNKNOWN;
         String t = s.trim().toLowerCase();
