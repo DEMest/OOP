@@ -1,4 +1,4 @@
-xpackage ru.nsu.smolin;
+package ru.nsu.smolin;
 
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
