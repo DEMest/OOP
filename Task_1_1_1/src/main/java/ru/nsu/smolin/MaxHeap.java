@@ -1,10 +1,12 @@
 package ru.nsu.smolin;
 
+import java.util.Arrays;
+
 /**
  * Configure Maxheap and heapsort.
  */
 public class MaxHeap {
-    public int[] arr;
+    private final int[] arr;
     private int hsize;
 
     /**
@@ -12,53 +14,9 @@ public class MaxHeap {
      *
      * @param n capacity of new heap
      */
-    public void maxHeap(int n) {
+    public MaxHeap(int n) {
         arr = new int[n];
         hsize = 0;
-    }
-
-    /**
-     * Function for swapping elements in MaxHeap.
-     *
-     * @param arr A heap of elements that we want to swap
-     * @param a First Element
-     * @param b Second Element
-     */
-    private void swap(int[] arr, int a, int b) {
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
-    }
-
-    /**
-     * Determines the parent element index of the
-     * selected element index.
-     *
-     * @param a Selected element index
-     * @return parent elemnt index
-     */
-    private int parentidx(int a) {
-        return (a - 1) / 2;
-    }
-
-    /**
-     * Returns the right child element index.
-     *
-     * @param a Root element index
-     * @return child element index
-     */
-    private int right(int a) {
-        return 2 * a + 2;
-    }
-
-    /**
-     * Returns the left child element index.
-     *
-     * @param a Root element index
-     * @return child element index
-     */
-    private int left(int a) {
-        return 2 * a + 1;
     }
 
     /**
@@ -79,6 +37,58 @@ public class MaxHeap {
     }
 
     /**
+     * Build max-heap by elements of input array, and perform heapsort.
+     * Inital array doesn't change.
+     *
+     * @param arri Input array
+     * @return copy of original array
+     */
+    public int[] sortArr(int[] arri) {
+        if (arri.length == 0) {
+            return arri;
+        }
+        for (int i : arri) {
+            insert(i);
+        }
+        heapsort();
+        return Arrays.copyOf(arr, hsize);
+    }
+
+    /**
+     * Getting element from private param of heap.
+     *
+     * @param i index of getting element
+     * @return element staying on index
+     */
+    public int getElem(int i) {
+        return arr[i];
+    }
+
+    /**
+     * Function for swapping elements in MaxHeap.
+     *
+     * @param arr A heap of elements that we want to swap
+     * @param a First Element
+     * @param b Second Element
+     */
+    private void swap(int[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+
+    private int parentidx(int a) {
+        return (a - 1) / 2;
+    }
+
+    private int right(int a) {
+        return 2 * a + 2; }
+
+    private int left(int a) {
+        return 2 * a + 1;
+    }
+
+    /**
      * Ensures the maxHeap property
      * for a subtree.
      * It compares a node with its
@@ -94,8 +104,8 @@ public class MaxHeap {
         int l = left(a);
         int r = right(a);
         int max = a;
-        if (l < hsize && arr[l] > arr[max]) max = l;
-        if (r < hsize && arr[r] > arr[max]) max = r;
+        if (l < hsize && arr[l] > arr[max]) { max = l; }
+        if (r < hsize && arr[r] > arr[max]) { max = r; }
         if (max != a) {
             swap(arr, a, max);
             heapify(max);
@@ -110,7 +120,6 @@ public class MaxHeap {
      */
     public void heapsort() {
         int savesize = hsize;
-        
         for (int i = hsize - 1; i > 0; i--) {
             swap(arr, 0, i);
             hsize--;
@@ -118,16 +127,4 @@ public class MaxHeap {
         }
         hsize = savesize;
     }
-
-    /**
-     * Getting element from private param of heap.
-     *
-     * @param i index of getting element
-     * @return element staying on index
-     */
-    public int getElem(int i) {
-        return arr[i];
-    }
 }
-
-

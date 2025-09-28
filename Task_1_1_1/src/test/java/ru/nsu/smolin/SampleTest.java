@@ -1,15 +1,20 @@
 package ru.nsu.smolin;
 
-import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SampleTest {
+    private static int[] check(int[] arr) {
+        MaxHeap a = new MaxHeap(arr.length);
+        return a.sortArr(arr);
+    }
+
     private void checkSort(int[] arr) {
         int length = arr.length;
         int[] expected = Arrays.copyOf(arr, length);
         Arrays.sort(expected);
-        int[] mysort = Main.check(arr);
+        int[] mysort = check(arr);
         assertArrayEquals(expected, mysort);
     }
 
