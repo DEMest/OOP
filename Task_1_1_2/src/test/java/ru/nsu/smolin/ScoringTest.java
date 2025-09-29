@@ -17,19 +17,22 @@ final class ScoringTest {
 
     @Test
     void checkSum1() {
-        List<Card> hand = List.of(createCard(Value.EIGHT, Suit.SPADES), createCard(Value.TWO, Suit.SPADES));
+        List<Card> hand = List.of(createCard(Value.EIGHT, Suit.SPADES),
+                createCard(Value.TWO, Suit.SPADES));
         assertEquals(10, Scoring.total(hand));
     }
 
     @Test
     void checkSum2() {
-        List<Card> hand = List.of(createCard(Value.TEN, Suit.SPADES), createCard(Value.JACK, Suit.SPADES));
+        List<Card> hand = List.of(createCard(Value.TEN, Suit.SPADES),
+                createCard(Value.JACK, Suit.SPADES));
         assertEquals(20, Scoring.total(hand));
     }
 
     @Test
     void checkSumWithOneAce() {
-        List<Card> hand = List.of(createCard(Value.ACE, Suit.SPADES), createCard(Value.JACK, Suit.SPADES));
+        List<Card> hand = List.of(createCard(Value.ACE, Suit.SPADES),
+                createCard(Value.JACK, Suit.SPADES));
         assertEquals(21, Scoring.total(hand));
     }
 
@@ -45,7 +48,8 @@ final class ScoringTest {
 
     @Test
     void checkSumWithMultipleAces() {
-        List<Card> hand = List.of(createCard(Value.ACE, Suit.SPADES), createCard(Value.ACE, Suit.HEARTS));
+        List<Card> hand = List.of(createCard(Value.ACE, Suit.SPADES),
+                createCard(Value.ACE, Suit.HEARTS));
         assertEquals(12, Scoring.total(hand));
     }
 }
