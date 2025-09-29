@@ -2,9 +2,21 @@ package ru.nsu.smolin;
 
 import java.util.List;
 
+/**
+ * Class to calculate total sum
+ * of hand.
+ *
+ */
 public final class Scoring {
     private Scoring() {}
 
+    /**
+     * Input of List of cards transforms
+     * into it sum by it values.
+     *
+     * @param hand
+     * @return
+     */
     public static int total(List<Card> hand) {
         int sum = 0;
         int aces = 0;

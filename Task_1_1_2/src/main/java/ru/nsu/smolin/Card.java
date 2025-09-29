@@ -1,16 +1,27 @@
 package ru.nsu.smolin;
 
+/**
+ * Base Card class.
+ *
+ */
 public class Card {
     public final Suit suit;
     public final Value value;
 
+    /**
+     * Construct that matches char to suit,
+     * int to value.
+     *
+     * @param suit enum class of char value
+     * @param value enum class of int value
+     */
     public Card(Suit suit, Value value) {
         this.suit = suit;
         this.value = value;
     }
 
     /**
-     * Showing card in string type
+     * Showing card in string type.
      *
      * @return String of card [{value}{symbol}]
      */
