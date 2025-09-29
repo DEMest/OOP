@@ -138,7 +138,7 @@ public class Blackjack {
 
     private void dealerTurn() {
         System.out.println("\nDealer show cards: "
-                + joinShort(dealer) + " (sum: " + Scoring.total(dealer) + ")");
+                + Renderer.joinShort(dealer) + " (sum: " + Scoring.total(dealer) + ")");
 
         while (Scoring.total(dealer) < 17 || Scoring.total(dealer) < Scoring.total(player)) {
             if (Scoring.total(dealer) > Scoring.total(player)) {
@@ -155,8 +155,8 @@ public class Blackjack {
         int ps = Scoring.total(player);
         int ds = Scoring.total(dealer);
         System.out.println(
-                "Your cards:   " + joinShort(player) + "  (sum: " + ps + ")\n"
-                        + "Dealer cards: " + joinShort(dealer) + "  (sum: " + ds + ")"
+                "Your cards:   " + Renderer.joinShort(player) + "  (sum: " + ps + ")\n"
+                        + "Dealer cards: " + Renderer.joinShort(dealer) + "  (sum: " + ds + ")"
         );
         if (ds > 21) {
             System.out.println("Dealer took to much - you win.");
@@ -168,24 +168,4 @@ public class Blackjack {
             System.out.println("Draw.");
         }
     }
-
-    /**
-     * Returns hand in string format,
-     * using srting builder to make new stroke
-     * from List.
-     *
-     * @param hand List of cards
-     * @return String format of this List
-     */
-    private static String joinShort(List<Card> hand) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < hand.size(); i++) {
-            if (i > 0) {
-                sb.append(' ');
-            }
-            sb.append(hand.get(i).shortString());
-        }
-        return sb.toString();
-    }
-
 }

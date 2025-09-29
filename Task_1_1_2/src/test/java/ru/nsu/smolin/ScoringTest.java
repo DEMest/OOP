@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests for Scoring.
  */
-public class ScoringTest {
+final class ScoringTest {
 
     private static Card c(Value v, Suit s) {
         return new Card(s, v);

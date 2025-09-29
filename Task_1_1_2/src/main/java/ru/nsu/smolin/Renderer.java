@@ -83,7 +83,7 @@ public final class Renderer {
      * @param hand List of cards
      * @return String format of this List
      */
-    private static String joinShort(List<Card> hand) {
+    public static String joinShort(List<Card> hand) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hand.size(); i++) {
             if (i > 0) {
