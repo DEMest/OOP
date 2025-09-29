@@ -129,6 +129,7 @@ public class Blackjack {
                     return true;
                 case UNKNOWN:
                     System.out.println("Undefined command. Available: Take / Pass / Info / Exit");
+                    break;
                 default:
                     Renderer.showHands(player, dealer, true);
                     break;

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests for Commands.
  */
-final class CommandsParsingTest {
+final class CommandsTest {
 
     @Test
     void commandTake() {
