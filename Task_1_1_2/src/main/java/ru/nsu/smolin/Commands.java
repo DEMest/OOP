@@ -1,5 +1,9 @@
 package ru.nsu.smolin;
 
+/**
+ * Base class of available user commands.
+ *
+ */
 public final class Commands {
     private Commands() {}
 
@@ -9,15 +13,17 @@ public final class Commands {
      * Pass - Transition to dealer turn
      * Info - Show info (hands, available actions)
      * Exit - Instant exit out of game
-     * Empty stroke - equals to Info
+     * Empty stroke - equals to Info.
      *
      * @param s input command
      * @return Command from enum class
      */
     public static Command parse(String s) {
-        if(s == null) return Command.UNKNOWN;
+        if (s == null) {
+            return Command.UNKNOWN;
+        }
         String t = s.trim().toLowerCase();
-        switch(t) {
+        switch (t) {
             case "take": return Command.TAKE;
             case "pass": return Command.PASS;
             case "info":

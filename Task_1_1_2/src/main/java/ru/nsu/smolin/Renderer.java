@@ -16,20 +16,32 @@ public final class Renderer {
      */
     public static void showSplash() {
         System.out.println(
-                "+----------------------------------------------------+\n" +
-                        "|                                                    |\n" +
-                        "|                   .---------.                      |\n" +
-                        "|                   |A        |                      |\n" +
-                        "|                   |         |                      |\n" +
-                        "|                   |    " + Config.BLACK + "S" + Config.RESET + "    |                      |\n" +
-                        "|                   |         |                      |\n" +
-                        "|                   |        A|                      |\n" +
-                        "|                   '---------'                      |\n" +
-                        "|                                                    |\n" +
-                        "|             " + Config.RED + "H" + " " + Config.BLACK + "S" + "   BLACKJACK  " + Config.BLACK + "T" + Config.RED + " " + "D" + Config.RESET +
-                        "                   |\n" +
-                        "|            Press" + " " + Config.RED + " ENTER" + Config.RESET + " to start...                |\n" +
-                        "+----------------------------------------------------+"
+                "+----------------------------------------------------+\n"
+                        + "|                                                    |\n"
+                        + "|                   .---------.                      |\n"
+                        + "|                   |A        |                      |\n"
+                        + "|                   |         |                      |\n"
+                        + "|                   |    "
+                        + Config.BLACK + "S"
+                        + Config.RESET
+                        + "    |                      |\n"
+                        + "|                   |         |                      |\n"
+                        + "|                   |        A|                      |\n"
+                        + "|                   '---------'                      |\n"
+                        + "|                                                    |\n"
+                        + "|             "
+                        + Config.RED + "H"
+                        + " "
+                        + Config.BLACK + "S" + "   BLACKJACK  "
+                        + Config.BLACK + "T"
+                        + Config.RED + " " + "D"
+                        + Config.RESET
+                        + "                   |\n"
+                        + "|            Press" + " "
+                        + Config.RED + " ENTER"
+                        + Config.RESET
+                        + " to start...                |\n"
+                        + "+----------------------------------------------------+"
         );
     }
 
@@ -48,9 +60,9 @@ public final class Renderer {
                 : joinShort(dealer);
         String dealerSum = hideDealerHole ? "" : " (sum: " + Scoring.total(dealer) + ")";
         System.out.println(
-                "Your cards:   " + playerStr + "  (sum: " + Scoring.total(player) + ")\n" +
-                        "Dealer cards: " + dealerStr + dealerSum + "\n" +
-                        "Chose action: Take / Pass / Info   (or Exit)"
+                "Your cards:   " + playerStr + "  (sum: " + Scoring.total(player) + ")\n"
+                        + "Dealer cards: " + dealerStr + dealerSum + "\n"
+                        + "Chose action: Take / Pass / Info   (or Exit)"
         );
     }
 
@@ -74,7 +86,9 @@ public final class Renderer {
     private static String joinShort(List<Card> hand) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hand.size(); i++) {
-            if (i > 0) sb.append(' ');
+            if (i > 0) {
+                sb.append(' ');
+            }
             sb.append(hand.get(i).shortString());
         }
         return sb.toString();

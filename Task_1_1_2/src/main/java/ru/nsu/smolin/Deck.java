@@ -2,6 +2,10 @@ package ru.nsu.smolin;
 
 import java.util.*;
 
+/**
+ * Class for making deck from all cards.
+ *
+ */
 public class Deck {
     private final List<Card> cards = new ArrayList<>(52);
 

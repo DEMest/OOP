@@ -1,5 +1,9 @@
 package ru.nsu.smolin;
 
+/**
+ * Enum class of card suit.
+ *
+ */
 public enum Suit {
     HEARTS('H'),
     SPADES('S'),
