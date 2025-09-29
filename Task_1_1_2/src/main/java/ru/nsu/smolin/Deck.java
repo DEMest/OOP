@@ -25,6 +25,10 @@ public class Deck {
         shuffle();
     }
 
+    public Card get(int index) {
+        return cards.get(index);
+    }
+
     public void shuffle() {
         Collections.shuffle(cards);
     }
