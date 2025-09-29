@@ -13,7 +13,7 @@ public class Main {
         int[] arr = {2, 3, 1, 4, 5};
         int cap = arr.length;
         MaxHeap a = new MaxHeap(arr.length);
-        a.sortArr(arr);
+        int [] result = a.sortArr(arr);
         for (int i = 0; i < cap; i++) {
             System.out.print(a.getElem(i) + " ");
         }
