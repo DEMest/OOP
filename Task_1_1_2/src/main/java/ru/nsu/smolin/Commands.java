@@ -24,12 +24,17 @@ public final class Commands {
         }
         String t = s.trim().toLowerCase();
         switch (t) {
-            case "take": return Command.TAKE;
-            case "pass": return Command.PASS;
+            case "take":
+                return Command.TAKE;
+            case "pass":
+                return Command.PASS;
             case "info":
-            case "":     return Command.INFO;
-            case "exit": return Command.EXIT;
-            default:     return Command.UNKNOWN;
+            case "":
+                return Command.INFO;
+            case "exit":
+                return Command.EXIT;
+            default:
+                return Command.UNKNOWN;
         }
     }
 }

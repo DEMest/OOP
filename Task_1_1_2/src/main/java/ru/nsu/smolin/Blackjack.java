@@ -19,7 +19,7 @@ public class Blackjack {
     private int round = 0;
 
     /**
-     * Main logic and game-loop
+     * Main logic and game-loop.
      *
      */
     public void run() {
@@ -27,7 +27,6 @@ public class Blackjack {
         Renderer.showSplash();
         in.nextLine();
 
-        mainLoop:
         while (true) {
             StartOutcome start = startRound();
             switch (start) {
@@ -55,7 +54,7 @@ public class Blackjack {
             System.out.println("\nPress ENTER to continue, or print 'exit' for the exit.");
             String ans = in.nextLine().trim().toLowerCase();
             if (ans.equals("exit")) {
-                break mainLoop;
+                break;
             }
         }
         System.out.println("End of the game");
@@ -64,7 +63,7 @@ public class Blackjack {
     /**
      * Starting round, showing hands, ask player for action.
      *
-     * @return
+     * @return outcome
      */
     private StartOutcome startRound() {
         round++;
@@ -72,7 +71,7 @@ public class Blackjack {
 
         if (deck.size() < 15) {
             System.out.println("Not enough cards, create new deck and shuffle...");
-            deck = new Deck();// шафл с анимацией (sleep внутри Deck)
+            deck = new Deck();
         }
 
         player.clear();
@@ -159,23 +158,31 @@ public class Blackjack {
                 "Your cards:   " + joinShort(player) + "  (sum: " + ps + ")\n"
                         + "Dealer cards: " + joinShort(dealer) + "  (sum: " + ds + ")"
         );
-        if (ds > 21){
+        if (ds > 21) {
             System.out.println("Dealer took to much - you win.");
         } else if (ps > ds) {
             System.out.println("Your sum is higher - you win.");
-        }
-        else if (ps < ds) {
+        } else if (ps < ds) {
             System.out.println("Your sum is lower - you lost.");
-        }
-        else {
+        } else {
             System.out.println("Draw.");
         }
     }
 
+    /**
+     * Returns hand in string format,
+     * using srting builder to make new stroke
+     * from List.
+     *
+     * @param hand List of cards
+     * @return String format of this List
+     */
     private static String joinShort(List<Card> hand) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hand.size(); i++) {
-            if (i > 0) sb.append(' ');
+            if (i > 0) {
+                sb.append(' ');
+            }
             sb.append(hand.get(i).shortString());
         }
         return sb.toString();

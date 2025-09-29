@@ -1,6 +1,8 @@
 package ru.nsu.smolin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class for making deck from all cards.
@@ -10,7 +12,8 @@ public class Deck {
     private final List<Card> cards = new ArrayList<>(52);
 
     /**
-     * Create a new deck by going all the card combinations
+     * Create a new deck by going
+     * all the card combinations.
      *
      */
     public Deck() {
@@ -28,10 +31,6 @@ public class Deck {
 
     public int size() {
         return cards.size();
-    }
-
-    public boolean isEmpty() {
-        return cards.isEmpty();
     }
 
     public Card draw() {

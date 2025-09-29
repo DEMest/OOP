@@ -1,5 +1,9 @@
 package ru.nsu.smolin;
 
+/**
+ * Enum class of card value.
+ *
+ */
 public enum Value {
     TWO("2", 2),
     THREE("3", 3),
