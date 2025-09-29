@@ -1,7 +1,5 @@
 package ru.nsu.smolin;
 
-import java.util.Arrays;
-
 /**
  * Configure Maxheap and heapsort.
  */
@@ -51,7 +49,7 @@ public class MaxHeap {
             insert(i);
         }
         heapsort();
-        return Arrays.copyOf(arr, hsize);
+        return arr;
     }
 
     /**
@@ -118,7 +116,7 @@ public class MaxHeap {
      * the heapify tree without root element to recursive determine
      * max element (root) in a tree.
      */
-    public void heapsort() {
+    private void heapsort() {
         int savesize = hsize;
         for (int i = hsize - 1; i > 0; i--) {
             swap(arr, 0, i);
