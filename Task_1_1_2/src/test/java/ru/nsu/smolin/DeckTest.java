@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.smolin.model.Card;
+import ru.nsu.smolin.model.Deck;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

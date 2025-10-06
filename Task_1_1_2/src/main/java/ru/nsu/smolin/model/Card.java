@@ -1,4 +1,6 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.model;
+
+import ru.nsu.smolin.util.Config;
 
 /**
  * Base Card class.

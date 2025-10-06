@@ -1,6 +1,10 @@
 package ru.nsu.smolin;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.smolin.model.Card;
+import ru.nsu.smolin.model.Suit;
+import ru.nsu.smolin.model.Value;
+import ru.nsu.smolin.util.Config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

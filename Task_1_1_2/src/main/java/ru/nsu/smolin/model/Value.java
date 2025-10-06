@@ -1,4 +1,4 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.model;
 
 /**
  * Enum class of card value.

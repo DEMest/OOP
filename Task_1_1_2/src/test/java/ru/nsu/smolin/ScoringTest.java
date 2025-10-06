@@ -3,6 +3,10 @@ package ru.nsu.smolin;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import ru.nsu.smolin.model.Card;
+import ru.nsu.smolin.model.Suit;
+import ru.nsu.smolin.model.Value;
+import ru.nsu.smolin.model.Scoring;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

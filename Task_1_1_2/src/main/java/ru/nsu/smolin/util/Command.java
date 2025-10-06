@@ -1,4 +1,4 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.util;
 
 /**
  * Set of base user commands.

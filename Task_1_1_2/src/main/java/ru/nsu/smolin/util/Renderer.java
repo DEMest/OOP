@@ -1,4 +1,7 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.util;
+
+import ru.nsu.smolin.model.Card;
+import ru.nsu.smolin.model.Scoring;
 
 import java.util.List;
 

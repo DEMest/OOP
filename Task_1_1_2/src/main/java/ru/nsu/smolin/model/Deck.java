@@ -1,4 +1,4 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,21 +16,15 @@ public class Deck {
      * all the card combinations.
      *
      */
-    public Deck() {
+    public static Deck create() {
+        Deck deck = new Deck();
         for (Suit s : Suit.values()) {
             for (Value v : Value.values()) {
-                cards.add(new Card(s, v));
+                deck.cards.add(new Card(s, v));
             }
         }
-        shuffle();
-    }
-
-    public Card get(int index) {
-        return cards.get(index);
-    }
-
-    public void shuffle() {
-        Collections.shuffle(cards);
+        deck.shuffle();
+        return deck;
     }
 
     public int size() {
@@ -39,5 +33,13 @@ public class Deck {
 
     public Card draw() {
         return cards.remove(0);
+    }
+
+    Card get(int index) {
+        return cards.get(index);
+    }
+
+    private void shuffle() {
+        Collections.shuffle(cards);
     }
 }

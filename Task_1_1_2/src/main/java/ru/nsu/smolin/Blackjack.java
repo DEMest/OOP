@@ -1,5 +1,12 @@
 package ru.nsu.smolin;
 
+import ru.nsu.smolin.model.Card;
+import ru.nsu.smolin.model.Deck;
+import ru.nsu.smolin.util.Command;
+import ru.nsu.smolin.util.Commands;
+import ru.nsu.smolin.util.Renderer;
+import ru.nsu.smolin.model.Scoring;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,13 +16,17 @@ import java.util.Scanner;
  *
  */
 public class Blackjack {
+    /**
+     * TODO comment
+     */
     enum StartOutcome {
         CONTINUE, PLAYER_BJ, BOTH_BJ, DEALER_BJ
     }
 
-    private Deck deck = new Deck();
     private final List<Card> player = new ArrayList<>();
     private final List<Card> dealer = new ArrayList<>();
+
+    private Deck deck = new Deck();
     private int round = 0;
 
     /**
