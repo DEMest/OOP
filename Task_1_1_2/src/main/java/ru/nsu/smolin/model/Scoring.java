@@ -8,8 +8,6 @@ import java.util.List;
  *
  */
 public final class Scoring {
-    private Scoring() {}
-
     /**
      * Input of List of cards transforms
      * into it sum by it values.
@@ -32,4 +30,6 @@ public final class Scoring {
         }
         return sum;
     }
+
+    private Scoring() {}
 }

@@ -1,10 +1,11 @@
 package ru.nsu.smolin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import ru.nsu.smolin.util.Command;
 import ru.nsu.smolin.util.Commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for Commands.

@@ -35,7 +35,7 @@ public class Deck {
         return cards.remove(0);
     }
 
-    Card get(int index) {
+    public Card get(int index) {
         return cards.get(index);
     }
 

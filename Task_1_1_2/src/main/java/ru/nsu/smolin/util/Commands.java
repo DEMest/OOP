@@ -15,15 +15,15 @@ public final class Commands {
      * Exit - Instant exit out of game
      * Empty stroke - equals to Info.
      *
-     * @param s input command
+     * @param input input command
      * @return Command from enum class
      */
-    public static Command parse(String s) {
-        if (s == null) {
+    public static Command parse(String input) {
+        if (input == null) {
             return Command.UNKNOWN;
         }
-        String t = s.trim().toLowerCase();
-        switch (t) {
+        String command = input.trim().toLowerCase();
+        switch (command) {
             case "take":
                 return Command.TAKE;
             case "pass":

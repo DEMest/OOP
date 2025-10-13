@@ -17,7 +17,8 @@ import java.util.Scanner;
  */
 public class Blackjack {
     /**
-     * TODO comment
+     * That enum class has 4 object which will be returned at the end
+     * of the round.
      */
     enum StartOutcome {
         CONTINUE, PLAYER_BJ, BOTH_BJ, DEALER_BJ
@@ -26,7 +27,7 @@ public class Blackjack {
     private final List<Card> player = new ArrayList<>();
     private final List<Card> dealer = new ArrayList<>();
 
-    private Deck deck = new Deck();
+    private Deck deck = Deck.create();
     private int round = 0;
 
     /**
@@ -82,7 +83,7 @@ public class Blackjack {
 
         if (deck.size() < 15) {
             System.out.println("Not enough cards, create new deck and shuffle...");
-            deck = new Deck();
+            deck = Deck.create();
         }
 
         player.clear();
@@ -92,13 +93,13 @@ public class Blackjack {
         player.add(deck.draw());
         dealer.add(deck.draw());
 
-        int p = Scoring.total(player);
+        int total = Scoring.total(player);
         int d = Scoring.total(dealer);
 
-        if (p == 21 && d == 21) {
+        if (total == 21 && d == 21) {
             return StartOutcome.BOTH_BJ;
         }
-        if (p == 21) {
+        if (total == 21) {
             return StartOutcome.PLAYER_BJ;
         }
         if (d == 21) {

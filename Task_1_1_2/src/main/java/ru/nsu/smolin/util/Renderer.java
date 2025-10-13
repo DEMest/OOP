@@ -1,9 +1,9 @@
 package ru.nsu.smolin.util;
 
+import java.util.List;
 import ru.nsu.smolin.model.Card;
 import ru.nsu.smolin.model.Scoring;
 
-import java.util.List;
 
 /**
  * Class wich contains main outputs
