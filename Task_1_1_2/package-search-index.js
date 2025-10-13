@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.smolin"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ru.nsu.smolin"},{"l":"ru.nsu.smolin.model"},{"l":"ru.nsu.smolin.util"}];updateSearchResults();

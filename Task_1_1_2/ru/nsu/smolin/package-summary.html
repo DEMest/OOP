@@ -15,11 +15,7 @@
 <script type="text/javascript" src="../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="package-declaration-page">
-<script type="text/javascript">var evenRowColor = "even-row-color";
-var oddRowColor = "odd-row-color";
-var tableTab = "table-tab";
-var activeTableTab = "active-table-tab";
-var pathtoroot = "../../../";
+<script type="text/javascript">var pathtoroot = "../../../";
 loadScripts(document, 'script');</script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -31,6 +27,7 @@ loadScripts(document, 'script');</script>
 <div class="top-nav" id="navbar-top">
 <div class="skip-nav"><a href="#skip-navbar-top" title="Skip navigation links">Skip navigation links</a></div>
 <ul id="navbar-top-firstrow" class="nav-list" title="Navigation">
+<li><a href="../../../index.html">Overview</a></li>
 <li class="nav-bar-cell1-rev">Package</li>
 <li>Class</li>
 <li><a href="package-tree.html">Tree</a></li>
@@ -43,7 +40,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Package:&nbsp;</li>
 <li>Description&nbsp;|&nbsp;</li>
-<li>Related Packages&nbsp;|&nbsp;</li>
+<li><a href="#related-package-summary">Related Packages</a>&nbsp;|&nbsp;</li>
 <li><a href="#class-summary">Classes and Interfaces</a></li>
 </ul>
 </div>
@@ -65,9 +62,21 @@ loadScripts(document, 'script');</script>
 <section class="summary">
 <ul class="summary-list">
 <li>
+<div id="related-package-summary">
+<div class="caption"><span>Related Packages</span></div>
+<div class="summary-table two-column-summary">
+<div class="table-header col-first">Package</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><a href="model/package-summary.html">ru.nsu.smolin.model</a></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><a href="util/package-summary.html">ru.nsu.smolin.util</a></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
+</div>
+</li>
+<li>
 <div id="class-summary">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="class-summary-tab0" role="tab" aria-selected="true" aria-controls="class-summary.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary', 2)" class="active-table-tab">All Classes and Interfaces</button><button id="class-summary-tab2" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab2', 2)" class="table-tab">Classes</button><button id="class-summary-tab3" role="tab" aria-selected="false" aria-controls="class-summary.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('class-summary', 'class-summary-tab3', 2)" class="table-tab">Enum Classes</button></div>
-<div id="class-summary.tabpanel" role="tabpanel" aria-labelledby="class-summary-tab0">
+<div class="caption"><span>Classes</span></div>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
@@ -75,49 +84,9 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Main class of game logic.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Card.html" title="class in ru.nsu.smolin">Card</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Main.html" title="class in ru.nsu.smolin">Main</a></div>
 <div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Base Card class.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab3"><a href="Command.html" title="enum class in ru.nsu.smolin">Command</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab3">
-<div class="block">Set of base user commands.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Commands.html" title="class in ru.nsu.smolin">Commands</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Base class of available user commands.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Config.html" title="class in ru.nsu.smolin">Config</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Config to colorise text.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Deck.html" title="class in ru.nsu.smolin">Deck</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Class for making deck from all cards.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Main.html" title="class in ru.nsu.smolin">Main</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Main entrance of program.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="Renderer.html" title="class in ru.nsu.smolin">Renderer</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
-<div class="block">Class wich contains main outputs
- of program like start screen, hands
- and round header.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="Scoring.html" title="class in ru.nsu.smolin">Scoring</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Class to calculate total sum
- of hand.</div>
-</div>
-<div class="col-first odd-row-color class-summary class-summary-tab3"><a href="Suit.html" title="enum class in ru.nsu.smolin">Suit</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab3">
-<div class="block">Enum class of card suit.</div>
-</div>
-<div class="col-first even-row-color class-summary class-summary-tab3"><a href="Value.html" title="enum class in ru.nsu.smolin">Value</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab3">
-<div class="block">Enum class of card value.</div>
-</div>
 </div>
 </div>
 </div>
