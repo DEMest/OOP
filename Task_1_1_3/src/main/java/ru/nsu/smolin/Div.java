@@ -1,12 +1,15 @@
 package ru.nsu.smolin;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
-
+/**
+ * Div left and right Expression.
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,14 +19,14 @@ public class Div extends Expression {
     private Expression right;
 
     /**
-     * Division with division by zero protection
+     * Division with division by zero protection.
      *
      * @param variables input variobles
      * @return a/b
      */
     @Override
     public int eval(Map<String, Integer> variables) {
-        if(right.eval(variables) == 0) {
+        if (right.eval(variables) == 0) {
             throw new ArithmeticException("Division by zero");
         }
         return left.eval(variables) / right.eval(variables);

@@ -1,12 +1,15 @@
 package ru.nsu.smolin;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
-
+/**
+ * Variable.
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,9 +19,10 @@ public class Variable extends Expression {
 
     @Override
     public int eval(Map<String, Integer> variables) {
-        if (!variables.containsKey(name))
+        if (!variables.containsKey(name)) {
             throw new IllegalArgumentException(
                     "Variable" + name + "not defined");
+        }
         return variables.get(name);
     }
 

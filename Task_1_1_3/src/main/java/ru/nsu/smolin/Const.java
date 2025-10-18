@@ -1,12 +1,15 @@
 package ru.nsu.smolin;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
-
+/**
+ * Eval const.
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor

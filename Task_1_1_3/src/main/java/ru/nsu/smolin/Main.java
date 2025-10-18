@@ -2,10 +2,10 @@ package ru.nsu.smolin;
 
 import java.util.Map;
 
-/**
- * Example usage.
- */
 public class Main {
+    /**
+     * Example usage.
+     */
     public static void main(String[] args) {
         Expression e = new Add(
                 new Const(3),
@@ -20,3 +20,4 @@ public class Main {
         System.out.println("Eval: " + e.eval(vars));
     }
 }
+
