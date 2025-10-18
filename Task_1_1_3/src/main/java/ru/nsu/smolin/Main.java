@@ -2,6 +2,10 @@ package ru.nsu.smolin;
 
 import java.util.Map;
 
+/**
+ * Example usage.
+ *
+ */
 public class Main {
     /**
      * Example usage.
