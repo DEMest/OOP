@@ -1,22 +1,18 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.impl;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import ru.nsu.smolin.Expression;
 
 /**
  * Div left and right Expression.
  *
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Div extends Expression {
-    private Expression left;
-    private Expression right;
+@Data
+public class Div implements Expression {
+    private final Expression left;
+    private final Expression right;
 
     /**
      * Division with division by zero protection.
@@ -50,7 +46,10 @@ public class Div extends Expression {
     }
 
     @Override
-    public String print() {
-        return "(" + left.print() + "/" + right.print() + ")";
+    public String toString() {
+        return
+                "(" + left +
+                        "/" + right +
+                        ")";
     }
 }

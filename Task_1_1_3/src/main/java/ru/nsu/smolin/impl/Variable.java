@@ -1,21 +1,17 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.impl;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import ru.nsu.smolin.Expression;
 
 /**
  * Variable.
  *
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Variable extends Expression {
-    private String name;
+@Data
+public class Variable implements Expression {
+    private final String name;
 
     @Override
     public int eval(Map<String, Integer> variables) {
@@ -32,7 +28,7 @@ public class Variable extends Expression {
     }
 
     @Override
-    public String print() {
+    public String toString() {
         return name;
     }
 }

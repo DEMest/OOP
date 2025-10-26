@@ -1,22 +1,18 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.impl;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import ru.nsu.smolin.Expression;
 
 /**
  * Mul left and right Expression.
  *
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Mul extends Expression {
-    private Expression left;
-    private Expression right;
+@Data
+public class Mul implements Expression {
+    private final Expression left;
+    private final Expression right;
 
     @Override
     public int eval(Map<String, Integer> variables) {
@@ -38,7 +34,10 @@ public class Mul extends Expression {
     }
 
     @Override
-    public String print() {
-        return "(" + left.print() + "*" + right.print() + ")";
+    public String toString() {
+        return
+                "(" + left +
+                        "*" + right +
+                        ")";
     }
 }

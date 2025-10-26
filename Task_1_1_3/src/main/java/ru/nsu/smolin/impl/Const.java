@@ -1,21 +1,17 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.impl;
 
 import java.util.Map;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import ru.nsu.smolin.Expression;
 
 /**
  * Eval const.
  *
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Const extends Expression {
-    private int value;
+@Data
+public class Const implements Expression {
+    private final int value;
 
     @Override
     public int eval(Map<String, Integer> variables) {
@@ -28,7 +24,7 @@ public class Const extends Expression {
     }
 
     @Override
-    public String print() {
+    public String toString() {
         return Integer.toString(value);
     }
 }
