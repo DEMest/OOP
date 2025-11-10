@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ParserTest {
+public class GraphFileUtilTest {
     @Test
     void parsesGraphTxt_adjMatrix() throws Exception {
-        Graph g = Parser.readEdgeList(Path.of("graph.txt"), Factory::adjacentMatrix);
+        Graph g = GraphFileUtil.readFromFile(Path.of("graph.txt"), Factory::adjacentMatrix);
         assertTrue(g.hasEdge("A", "B"));
         assertTrue(g.hasEdge("A", "C"));
         assertTrue(g.hasEdge("C", "D"));
@@ -20,7 +20,7 @@ public class ParserTest {
 
     @Test
     void parsesGraphTxt_adjList() throws Exception {
-        Graph g = Parser.readEdgeList(Path.of("graph.txt"), Factory::adjacentList);
+        Graph g = GraphFileUtil.readFromFile(Path.of("graph.txt"), Factory::adjacentList);
         assertTrue(g.hasEdge("A", "B"));
         assertTrue(g.hasEdge("A", "C"));
         assertTrue(g.hasEdge("C", "D"));
@@ -31,7 +31,7 @@ public class ParserTest {
 
     @Test
     void parsesGraphTxt_incidence() throws Exception {
-        Graph g = Parser.readEdgeList(Path.of("graph.txt"), Factory::incidence);
+        Graph g = GraphFileUtil.readFromFile(Path.of("graph.txt"), Factory::incidence);
         assertTrue(g.hasEdge("A", "B"));
         assertTrue(g.hasEdge("A", "C"));
         assertTrue(g.hasEdge("C", "D"));

@@ -3,8 +3,6 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.nio.file.Files;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  * Класс для парсинга графов из файлов.
@@ -34,29 +32,19 @@ import java.util.HashSet;
  * System.out.println(g);
  * }</pre>
  */
-public class Parser {
-    public static Graph readEdgeList(Path path, GraphSupplier graphSupplier) throws IOException {
+public class GraphFileUtil {
+    public static Graph readFromFile(Path path, GraphSupplier graphSupplier) throws IOException {
         Graph g = graphSupplier.get();
         try (BufferedReader br = Files.newBufferedReader(path)) {
             String line;
-            Set<String> vertices = new HashSet<>();
             while ((line = br.readLine()) != null) {
                 String[] arr = line.trim().split("\\s+");
                 if (arr.length == 2) {
-                    vertices.add(arr[0]);
-                    vertices.add(arr[1]);
-                }
-            }
-            for (String v : vertices) {
-                g.addVertex(v);
-            }
-        }
-        try (BufferedReader br2 = Files.newBufferedReader(path)) {
-            String line;
-            while ((line = br2.readLine()) != null) {
-                String[] arr = line.trim().split("\\s+");
-                if (arr.length == 2) {
-                    g.addEdge(arr[0], arr[1]);
+                    String u = arr[0];
+                    String v = arr[1];
+                    g.addVertex(u);
+                    g.addVertex(v);
+                    g.addEdge(u, v);
                 }
             }
         }

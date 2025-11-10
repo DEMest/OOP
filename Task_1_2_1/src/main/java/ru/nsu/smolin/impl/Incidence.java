@@ -13,18 +13,11 @@ public class Incidence implements Graph {
     private final Map<String, String> pairToEdgeId = new HashMap<>();
     private int edgeSeq = 0;
 
-    private static String key(String a, String b) {
-        return a + "|" + b;
-    }
-
-    private static final class Edge {
-        final String u, v;
-        Edge(String u, String v) { this.u = u; this.v = v; }
-    }
-
     @Override
     public boolean addVertex(String name) {
-        if (matrix.containsKey(name)) return false;
+        if (matrix.containsKey(name)) {
+            return false;
+        }
         Map<String, Integer> row = new LinkedHashMap<>();
         for (String eId : edges.keySet()) {
             row.put(eId, 0);
@@ -36,7 +29,9 @@ public class Incidence implements Graph {
     @Override
     public boolean deleteVertex(String name) {
         Map<String, Integer> row = matrix.remove(name);
-        if (row == null) return false;
+        if (row == null) {
+            return false;
+        }
         List<String> incident = new ArrayList<>();
         for (Map.Entry<String, Integer> e : row.entrySet()) {
             if (e.getValue() != 0) {
@@ -57,11 +52,17 @@ public class Incidence implements Graph {
 
     @Override
     public boolean addEdge(String v1, String v2) {
-        if (!matrix.containsKey(v1) || !matrix.containsKey(v2)) return false;
-        if (v1.equals(v2)) return false;
+        if (!matrix.containsKey(v1) || !matrix.containsKey(v2)) {
+            return false;
+        }
+        if (v1.equals(v2)) {
+            return false;
+        }
 
         String dirKey = key(v1, v2);
-        if (pairToEdgeId.containsKey(dirKey)) return false;
+        if (pairToEdgeId.containsKey(dirKey)) {
+            return false;
+        }
 
         String eId = "e" + (edgeSeq++);
         edges.put(eId, new Edge(v1, v2));
@@ -71,8 +72,12 @@ public class Incidence implements Graph {
             String v = ent.getKey();
             Map<String, Integer> r = ent.getValue();
             int val = 0;
-            if (v.equals(v1)) val = +1;
-            else if (v.equals(v2)) val = -1;
+            if (v.equals(v1)) {
+                val += 1;
+            }
+            else if (v.equals(v2)) {
+                val -= 1;
+            }
             r.put(eId, val);
         }
         return true;
@@ -95,9 +100,11 @@ public class Incidence implements Graph {
         if (row == null) return Collections.emptyList();
         Set<String> res = new LinkedHashSet<>();
         for (Map.Entry<String, Integer> e : row.entrySet()) {
-            if (e.getValue() == +1) {
+            if (e.getValue() == 1) {
                 Edge edge = edges.get(e.getKey());
-                if (edge != null) res.add(edge.v);
+                if (edge != null) {
+                    res.add(edge.v);
+                }
             }
         }
         return new ArrayList<>(res);
@@ -143,8 +150,12 @@ public class Incidence implements Graph {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Incidence incidence)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Incidence incidence)) {
+            return false;
+        }
         return edgeSeq == incidence.edgeSeq
                 && Objects.equals(matrix, incidence.matrix)
                 && Objects.equals(edges, incidence.edges)
@@ -154,5 +165,16 @@ public class Incidence implements Graph {
     @Override
     public int hashCode() {
         return Objects.hash(matrix, edges, pairToEdgeId, edgeSeq);
+    }
+
+    private static String key(String a, String b) {
+        return a + "|" + b;
+    }
+
+    private static final class Edge {
+        final String u, v;
+        Edge(String u, String v) {
+            this.u = u; this.v = v;
+        }
     }
 }

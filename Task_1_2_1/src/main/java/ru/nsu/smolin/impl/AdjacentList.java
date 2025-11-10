@@ -40,14 +40,18 @@ public class AdjacentList implements Graph {
 
     @Override
     public boolean deleteEdge(String v1, String v2) {
-        if (!adj.containsKey(v1) || !adj.containsKey(v2)) return false;
+        if (!adj.containsKey(v1) || !adj.containsKey(v2)) {
+            return false;
+        }
         return adj.get(v1).remove(v2);
     }
 
     @Override
     public List<String> neighbourVertecies(String name) {
         Set<String> s = adj.get(name);
-        if (s == null) return Collections.emptyList();
+        if (s == null) {
+            return Collections.emptyList();
+        }
         return new ArrayList<>(s);
     }
 
@@ -82,8 +86,12 @@ public class AdjacentList implements Graph {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AdjacentList that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AdjacentList that)) {
+            return false;
+        }
         return Objects.equals(adj, that.adj);
     }
 

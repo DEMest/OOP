@@ -2,10 +2,10 @@ package ru.nsu.smolin;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.function.Predicate;
 
 import ru.nsu.smolin.impl.Adjacent;
 import ru.nsu.smolin.impl.AdjacentList;
-import ru.nsu.smolin.impl.Incidence;
 
 
 /**
@@ -22,8 +22,6 @@ public class Main {
         c.adjListprint();
         c.incprintprint();
         c.adjMatrixFromFile("graph.txt");
-        AdjacentList adjList = new AdjacentList();
-        Graph g = new Adjacent();
     }
 }
 
@@ -60,7 +58,7 @@ class MatrixUsage {
 
     public void adjMatrixFromFile(String filename) throws IOException {
         Path path = Path.of(filename);
-        Graph g = Parser.readEdgeList(path, Factory::adjacentMatrix);
+        Graph g = GraphFileUtil.readFromFile(path, Factory::adjacentMatrix);
         System.out.println("Граф из файла (матрица смежности):");
         System.out.println(g);
     }

@@ -1,5 +1,7 @@
 package ru.nsu.smolin;
 
+import ru.nsu.smolin.impl.TopologySort;
+
 public class TopologySortTest {
     public static void main(String[] args) {
         testTopoSort();
@@ -11,7 +13,7 @@ public class TopologySortTest {
         g.addEdge("A", "B");
         g.addEdge("B", "C");
 
-        ru.nsu.smolin.TopoSort sorter = new ru.nsu.smolin.impl.TopologySort();
+        TopologySort sorter = new TopologySort();
         java.util.List<String> order = sorter.sort(g);
 
         assert order.size() == 3 : "Должно быть 3 вершины";

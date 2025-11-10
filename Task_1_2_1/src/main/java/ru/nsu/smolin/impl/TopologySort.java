@@ -11,8 +11,7 @@ import java.util.*;
  * Если граф содержит цикл, возвращённый порядок будет содержать не все вершины.
  *
  */
-public class TopologySort implements ru.nsu.smolin.TopoSort {
-    @Override
+public class TopologySort {
     public List<String> sort(Graph g) {
         Map<String, Integer> indegree = new HashMap<>();
         for (String v : g.getVerticies()) {
