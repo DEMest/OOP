@@ -8,5 +8,5 @@ package ru.nsu.smolin;
  * @param <K> тип ключа
  * @param <V> ип значения
  */
-public record MapEntry<K, V>(K key, V value) {
+public record HashTableEntry<K, V>(K key, V value) {
 }

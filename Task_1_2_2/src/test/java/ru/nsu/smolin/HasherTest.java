@@ -1,6 +1,6 @@
 package ru.nsu.smolin;
 
-import ru.nsu.smolin.impl.Hasher;
+import ru.nsu.smolin.impl.HasherImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,13 +9,13 @@ class HasherTest {
 
     @Test
     void returnsZeroForNullKey() {
-        Hasher<Object> hasher = new Hasher<>();
+        HasherImpl<Object> hasher = new HasherImpl<>();
         assertEquals(0, hasher.hash(null));
     }
 
     @Test
     void delegatesToHashCodeForNonNullKey() {
-        Hasher<String> hasher = new Hasher<>();
+        HasherImpl<String> hasher = new HasherImpl<>();
         String key = "hello";
 
         int expected = key.hashCode();
@@ -26,7 +26,7 @@ class HasherTest {
 
     @Test
     void producesSameHashForEqualObjects() {
-        Hasher<String> hasher = new Hasher<>();
+        HasherImpl<String> hasher = new HasherImpl<>();
 
         String a = "abc";
         String b = "abc";

@@ -4,14 +4,13 @@ import java.util.Iterator;
 
 /**
  * Интерфейс хеш-таблицы.
- * <p>
  * Описывает операции добавления, получения, обновления и удаления пар
  * ключ–значение, а также проверки наличия и обхода элементов.
  *
  * @param <K> Ключи
  * @param <V> Значения
  */
-public interface HashTable_<K, V> extends Iterable<MapEntry<K, V>> {
+public interface HashTable<K, V> extends Iterable<HashTableEntry<K, V>> {
 
     V put(K key, V value);
 
@@ -32,5 +31,5 @@ public interface HashTable_<K, V> extends Iterable<MapEntry<K, V>> {
     void clear();
 
     @Override
-    Iterator<MapEntry<K, V>> iterator();
+    Iterator<HashTableEntry<K, V>> iterator();
 }

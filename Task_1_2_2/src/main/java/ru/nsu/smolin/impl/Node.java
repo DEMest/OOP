@@ -1,20 +1,20 @@
-package ru.nsu.smolin;
+package ru.nsu.smolin.impl;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Узел односвязного списка в бакете хеш-таблицы.
+ * <p>Узел односвязного списка в бакете хеш-таблицы.
  * Хранит хеш ключа, сам ключ, значение и ссылку на следующий узел.
  *
  * @param <K> тип ключа
  * @param <V> тип значения
  */
-@Getter
+@Data
 @RequiredArgsConstructor
-public class Node<K, V> {
+class Node<K, V> {
     private final int hash;
     private final K key;
-    public V value;
-    public Node<K, V> next;
+    private V value;
+    private Node<K, V> next;
 }

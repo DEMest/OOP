@@ -1,15 +1,18 @@
 package ru.nsu.smolin;
 
 import org.junit.jupiter.api.Test;
-import ru.nsu.smolin.impl.HashTable;
+import ru.nsu.smolin.impl.HashTableImpl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HashTableTest {
 
     @Test
     void putGetUpdateRemove() {
-        HashTable<String, Integer> table = new HashTable<>();
+        HashTableImpl<String, Integer> table = new HashTableImpl<>();
 
         assertEquals(0, table.size());
         assertFalse(table.contains("one"));
@@ -31,7 +34,7 @@ class HashTableTest {
 
     @Test
     void resizeOnThreshold() {
-        HashTable<Integer, Integer> table = new HashTable<>(4);
+        HashTableImpl<Integer, Integer> table = new HashTableImpl<>(4);
 
         int n = 100;
         for (int i = 0; i < n; i++) {
@@ -46,7 +49,7 @@ class HashTableTest {
 
     @Test
     void iteratorTraversesAllEntries() {
-        HashTable<String, Integer> table = new HashTable<>();
+        HashTableImpl<String, Integer> table = new HashTableImpl<>();
         table.put("one", 1);
         table.put("two", 2);
         table.put("three", 3);
