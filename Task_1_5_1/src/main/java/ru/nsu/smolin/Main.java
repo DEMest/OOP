@@ -1,13 +1,14 @@
 package ru.nsu.smolin;
 
 
+import ru.nsu.smolin.table.Alignment;
 import ru.nsu.smolin.table.Table;
 import ru.nsu.smolin.table.Text;
 
 public class Main {
     public static void main(String[] args) {
         Table.Builder tableBuilder = new Table.Builder()
-                .withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_CENTER)
+                .withAlignments(Alignment.CENTER, Alignment.RIGHT)
                 .withRowLimit(8)
                 .addRow("Index", "Random");
         for (int i = 0; i < 10; i++) {

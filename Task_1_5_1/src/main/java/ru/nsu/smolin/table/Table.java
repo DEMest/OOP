@@ -5,142 +5,134 @@ import ru.nsu.smolin.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table implements Element {
-    public static final int ALIGN_LEFT = 0;
-    public static final int ALIGN_RIGHT = 1;
-    public static final int ALIGN_CENTER = 2;
+/**
+ * <p>Markdown-таблица.</p>
+ *
+ * <p>Таблица создаётся через {@link Table.Builder} и может содержать
+ * произвольные элементы, реализующие {@link Element}, в качестве ячеек.</p>
+ *
+ * <p>Первая добавленная строка считается заголовком, вторая строка при
+ * сериализации содержит разделители колонок и информацию о выравнивании.</p>
+ */
+public final class Table implements Element {
 
-    private final List<Integer> alignments;
-    private final List<Row> rows;
+    private final List<Alignment> alignments;
+    private final List<TableRow> rows;
     private final int rowLimit;
 
-    private Table(List<Integer> alignments, List<Row> rows, int rowLimit) {
+    /**
+     * <p>Создаёт неизменяемый объект таблицы.</p>
+     *
+     * <p>Конструктор пакетной видимости, используется только {@link Builder}.</p>
+     */
+    Table(List<Alignment> alignments, List<TableRow> rows, int rowLimit) {
         this.alignments = List.copyOf(alignments);
         this.rows = List.copyOf(rows);
         this.rowLimit = rowLimit;
     }
 
+    /**
+     * <p>Возвращает список выравниваний колонок в порядке слева направо.
+     * Используется рендерером при вычислении паддингов и строки разделителей.</p>
+     */
+    List<Alignment> alignments() {
+        return alignments;
+    }
+
+    /**
+     * <p>Возвращает все строки таблицы, включая заголовок.</p>
+     *
+     * <p>Первая строка интерпретируется как строка заголовков.</p>
+     */
+    List<TableRow> rows() {
+        return rows;
+    }
+
+    int rowLimit() {
+        return rowLimit;
+    }
+
+    /**
+     * <p>Сериализует таблицу в строку в формате Markdown.</p>
+     *
+     * <p>Строка разделителей содержит <code>-</code> и <code>:</code> в
+     * соответствии с выравниванием колонок.</p>
+     */
     @Override
     public String toMarkdown() {
-        if (rows.isEmpty()) return "";
-
-        StringBuilder sb = new StringBuilder();
-        int[] widths = computeColumnWidths();
-
-        Row header = rows.get(0);
-        sb.append(renderRow(header, widths)).append('\n');
-        sb.append(renderAlignmentRow(widths)).append('\n');
-
-        int maxDataRows = Math.min(rowLimit, rows.size() - 1);
-        for (int i = 1; i <= maxDataRows; i++) {
-            sb.append(renderRow(rows.get(i), widths)).append('\n');
-        }
-        return sb.toString();
+        return TableRenderer.render(this);
     }
 
-    private String renderRow(Row row, int[] widths) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < row.cells.size(); i++) {
-            String text = row.cells.get(i).toMarkdown();
-            int width = widths[i];
-            int align = i < alignments.size() ? alignments.get(i) : ALIGN_LEFT;
-
-            sb.append('|').append(' ');
-            sb.append(pad(text, width, align));
-            sb.append(' ');
-        }
-        sb.append('|');
-        return sb.toString();
+    @Override
+    public String toString() {
+        return toMarkdown();
     }
 
-    private String pad(String text, int width, int align) {
-        int spaces = Math.max(0, width - text.length());
-
-        return switch (align) {
-            case ALIGN_RIGHT -> " ".repeat(spaces) + text;
-            case ALIGN_CENTER -> {
-                int left = spaces / 2;
-                int right = spaces - left;
-                yield " ".repeat(left) + text + " ".repeat(right);
-            }
-            default -> text + " ".repeat(spaces);
-        };
-    }
-
-    private String renderAlignmentRow(int[] widths) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < widths.length; i++) {
-            int width = Math.max(3, widths[i]);
-            int align = i < alignments.size() ? alignments.get(i) : ALIGN_LEFT;
-            sb.append('|').append(' ');
-            switch (align) {
-                case ALIGN_RIGHT -> sb.append("-"
-                        .repeat(width - 1))
-                        .append(':');
-                case ALIGN_CENTER -> sb.append(':')
-                        .append("-".repeat(width - 2))
-                        .append(':');
-                default -> sb.append(':')
-                        .append("-"
-                                .repeat(width - 1));
-            }
-            sb.append(' ');
-        }
-        sb.append('|');
-        return sb.toString();
-    }
-
-    private int[] computeColumnWidths() {
-        if (rows.isEmpty()) return new int[0];
-        int cols = rows.get(0).cells.size();
-        int[] widths = new int[cols];
-
-        for (Row row : rows) {
-            for (int i = 0; i < cols; i++) {
-                String text = row.cells.get(i).toMarkdown();
-                int len = text.length();           // Р‘Р•Р— visibleLength
-                widths[i] = Math.max(widths[i], len);
-            }
-        }
-
-        // РЅРµР±РѕР»СЊС€РѕР№ Р·Р°РїР°СЃ, С‡С‚РѕР±С‹ С†РµРЅС‚СЂ/РїСЂР°РІРѕ Р±С‹Р»Рё Р·Р°РјРµС‚РЅС‹ РґР°Р¶Рµ РєРѕРіРґР° С‚РµРєСЃС‚ РєРѕСЂРѕС‡Рµ
-        for (int i = 0; i < cols; i++) {
-            int align = i < alignments.size() ? alignments.get(i) : ALIGN_LEFT;
-            if (align == ALIGN_CENTER) {
-                widths[i] += 2; // РѕРґРёРЅ СЃРёРјРІРѕР» СЃР»РµРІР° Рё СЃРїСЂР°РІР°
-            } else if (align == ALIGN_RIGHT) {
-                widths[i] += 1; // РјРёРЅРёРјСѓРј РѕРґРёРЅ СЃР»РµРІР°
-            }
-        }
-
-        return widths;
-    }
-
+    /**
+     * <p>Билдер для пошаговой сборки {@link Table}.</p>
+     *
+     * <p>Позволяет задать выравнивания колонок, лимит строк и
+     * последовательно добавлять строки с произвольными значениями.</p>
+     */
     public static final class Builder {
-        private final List<Integer> alignments = new ArrayList<>();
-        private final List<Row> rows = new ArrayList<>();
+
+        private final List<Alignment> alignments = new ArrayList<>();
+        private final List<TableRow> rows = new ArrayList<>();
         private int rowLimit = Integer.MAX_VALUE;
 
-        public Builder withAlignments(int... aligns) {
+        /**
+         * <p>Задаёт выравнивание для колонок.</p>
+         *
+         * <p>Порядок значений соответствует порядку колонок в таблице.
+         * Если колонок больше, чем элементов в массиве, остальные
+         * считаются выровненными по левому краю.</p>
+         *
+         * @param aligns выравнивания по колонкам
+         * @return текущий билдер
+         */
+        public Builder withAlignments(Alignment... aligns) {
             alignments.clear();
-            for (int a : aligns) {
-                alignments.add(a);
-            }
+            alignments.addAll(List.of(aligns));
             return this;
         }
 
+        /**
+         * <p>Задаёт максимальное количество строк данных.</p>
+         *
+         * <p>Заголовок не входит в этот лимит: он всегда присутствует
+         * в итоговой таблице.</p>
+         *
+         * @param limit максимальное число строк данных
+         * @return текущий билдер
+         */
         public Builder withRowLimit(int limit) {
             this.rowLimit = limit;
             return this;
         }
 
+        /**
+         * <p>Добавляет строку таблицы.</p>
+         *
+         * <p>Каждое значение приводится к {@link Element}: если объект уже
+         * реализует этот интерфейс, он используется как есть, в противном
+         * случае значение оборачивается в {@link Text.Plain}.</p>
+         *
+         * <p>Если достигнут {@code rowLimit}, новые строки игнорируются.</p>
+         *
+         * @param cells значения ячеек строки
+         * @return текущий билдер
+         */
         public Builder addRow(Object... cells) {
-            if (rows.size() >= rowLimit) return this;
-            List<Element> elems = new ArrayList<>();
-            for (Object c : cells) {
-                elems.add(asElement(c));
+            if (rows.size() >= rowLimit) {
+                return this;
             }
-            rows.add(new Row(List.copyOf(elems)));
+
+            List<Element> elems = new ArrayList<>();
+            for (Object value : cells) {
+                elems.add(asElement(value));
+            }
+
+            rows.add(new TableRow(List.copyOf(elems)));
             return this;
         }
 
@@ -148,18 +140,18 @@ public class Table implements Element {
             return new Table(alignments, rows, rowLimit);
         }
 
+        /**
+         * <p>Преобразует произвольное значение в {@link Element}.</p>
+         *
+         * <p>Если значение уже является элементом, оно возвращается
+         * без изменений; иначе используется текстовое представление
+         * через {@link Object#toString()} и создаётся {@link Text.Plain}.</p>
+         */
         private Element asElement(Object value) {
             if (value instanceof Element e) {
                 return e;
             }
             return new Text.Plain(String.valueOf(value));
         }
-    }
-
-    private record Row(List<Element> cells) { }
-
-    @Override
-    public String toString() {
-        return toMarkdown();
     }
 }
