@@ -3,15 +3,15 @@ package ru.nsu.smolin.table;
 import ru.nsu.smolin.Element;
 
 /**
- * <p>Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ С‚РµРєСЃС‚РѕРІС‹С… СЌР»РµРјРµРЅС‚РѕРІ.</p>
+ * <p>Вспомогательный класс для представления текстовых элементов.</p>
  *
- * <p>РЎРѕРґРµСЂР¶РёС‚ РїСЂРѕСЃС‚С‹Рµ СЂРµР°Р»РёР·Р°С†РёРё {@link Element} РґР»СЏ РЅРµС„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅРѕРіРѕ
- * С‚РµРєСЃС‚Р° Рё С‚РµРєСЃС‚Р° СЃ РІС‹РґРµР»РµРЅРёРµРј Р¶РёСЂРЅС‹Рј С€СЂРёС„С‚РѕРј.</p>
+ * <p>Содержит простые реализации {@link Element} для неформатированного
+ * текста и текста с выделением жирным шрифтом.</p>
  */
 public class Text {
 
     /**
-     * <p>РџСЂРѕСЃС‚РѕР№ С‚РµРєСЃС‚ Р±РµР· С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ</p>
+     * <p>Простой текст без форматирования</p>
      *
      */
     public static final class Plain implements Element {
@@ -36,6 +36,45 @@ public class Text {
         @Override
         public String toMarkdown() {
             return "**" + value + "**";
+        }
+    }
+
+    public static final class Italic implements Element {
+        private final String value;
+
+        public Italic(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return "*" + value + "*";
+        }
+    }
+
+    public static final class Strike implements Element {
+        private final String value;
+
+        public Strike(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return "~~" + value + "~~";
+        }
+    }
+
+    public static final class InlineCode implements Element {
+        private final String value;
+
+        public InlineCode(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return "`" + value + "`";
         }
     }
 
