@@ -57,19 +57,22 @@ public class Main {
         return nums.parallelStream().anyMatch(Main::isNonPrime);
     }
 
+    static volatile boolean foundNonPrime;
     public static boolean threadedPrime(int[] numbers, int threads) {
         int chunkSize = (numbers.length + threads - 1) / threads;
         Thread[] threads1 = new Thread[threads];
-        AtomicBoolean foundNonPrime = new AtomicBoolean(false);
-
+        foundNonPrime = false;
         for(int i = 0; i < threads; i++) {
             final int startIdx = i * chunkSize;
             final int endIdx = Math.min(startIdx + chunkSize, numbers.length);
 
             threads1[i] = new Thread(() -> {
                 for (int j = startIdx; j < endIdx; j++) {
+                    if (foundNonPrime) {
+                        return;
+                    }
                     if (!isPrime(numbers[j])) {
-                        foundNonPrime.set(true);
+                        foundNonPrime = true;
                         return;
                     }
                 }
@@ -77,16 +80,13 @@ public class Main {
             threads1[i].start();
         }
 
-        for (Thread thread : threads1) {
-            try {
+        try {
+            for (Thread thread : threads1) {
                 thread.join();
-                if (foundNonPrime.get()) {
-                    break;
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return foundNonPrime.get();
+        return foundNonPrime;
     }
 }

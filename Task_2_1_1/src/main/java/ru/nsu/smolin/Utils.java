@@ -53,12 +53,13 @@ public class Utils {
     }
 
     public static void timeCSV(int size, String name, Runnable func) {
-        double start = (double) System.nanoTime() / 1000000;
+        long start = System.nanoTime();
         func.run();
-        double end = ((double) System.nanoTime() / 1000000 - start);
-        System.out.println(size + " " + name + ": " + end + "ms");
+        long end = System.nanoTime();
+        double timeMs = (end - start) / 1_000_000.0;
+        System.out.println(size + " " + name + ": " + timeMs + "ms");
         try {
-            csvWriter.append(name + "(" + size + ")" + ": " + (double)end + "\n");
+            csvWriter.append(name + "(" + size + ")" + ": " + timeMs + "\n");
             csvWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
