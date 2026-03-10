@@ -15,6 +15,8 @@ public class Utils {
     static {
         try {
             csvWriter = new FileWriter("chart_data.csv", false);
+            csvWriter.write("Method,100k,500k,1M\n");
+            CSV_DATA.add("Method,100k,500k,1M");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,13 +52,14 @@ public class Utils {
         System.out.println(name + ": " + end + "ms");
     }
 
-    public static void timeCSV(int size, String name, int num, Runnable func) {
+    public static void timeCSV(int size, String name, Runnable func) {
         long start = System.nanoTime();
         func.run();
         long end = System.nanoTime();
         double timeMs = (end - start) / 1_000_000.0;
+        System.out.println(size + " " + name + ": " + timeMs + "ms");
         try {
-            csvWriter.append(size + "," + name + "," + num + "," + timeMs + "\n");
+            csvWriter.append(name + "(" + size + ")" + ": " + timeMs + "\n");
             csvWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
