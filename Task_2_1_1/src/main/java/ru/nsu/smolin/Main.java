@@ -1,27 +1,43 @@
 package ru.nsu.smolin;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
+import static ru.nsu.smolin.Utils.closeCSV;
 import static ru.nsu.smolin.Utils.generateLargePrimes;
 import static ru.nsu.smolin.Utils.time;
+import static ru.nsu.smolin.Utils.timeCSV;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        int[] sizes = {5000, 100_000, 500_000, 1_000_000};
+        for(int j : sizes) {
+            for (int i = 0; i < 1000; i++) {
+                int[] arr = generateLargePrimes(j);
+                timeCSV(j, "Sequentional", i, () -> Main.sequentialPrime(arr));
+            }
+            for (int i = 0; i < 1000; i++) {
+                int[] arr = generateLargePrimes(j);
+                timeCSV(j, "Thread_2", i, () -> Main.threadedPrime(arr, 2));
+            }
+            for (int i = 0; i < 1000; i++) {
+                int[] arr = generateLargePrimes(j);
+                timeCSV(j, "Thread_8", i, () -> Main.threadedPrime(arr, 8));
+            }
+            for (int i = 0; i < 1000; i++) {
+                int[] arr = generateLargePrimes(j);
+                timeCSV(j, "Thread_32", i, () -> Main.threadedPrime(arr, 32));
+            }
+            for (int i = 0; i < 1000; i++) {
+                int[] arr = generateLargePrimes(j);
+                timeCSV(j, "parallelStream", i, () -> Main.parallelPrime(arr));
+            }
+        }
+        closeCSV();
 
-        int[] arr = generateLargePrimes(1_000_000);
-//        int[] arr = {2, 37, 7919, 104651, 1000003};
-        time("Sequantial", () -> sequentialPrime(arr));
-        time("Threaded", () -> threadedPrime(arr, 32));
-        time("ParallelStream", () -> parallelPrime(arr));
-
-        ForkJoinPool commonPool = ForkJoinPool.commonPool();
-        System.out.println("Потоков в parallelStream: " + commonPool.getParallelism());
-        System.out.println("Ядер CPU: " + Runtime.getRuntime().availableProcessors());
-
-        System.out.println(arr.length);
     }
 
     public static boolean isPrime(int n) {
