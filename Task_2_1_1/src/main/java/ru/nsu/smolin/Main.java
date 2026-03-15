@@ -15,23 +15,23 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int[] sizes = {5000, 100_000, 500_000, 1_000_000};
         for(int j : sizes) {
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2000; i++) {
                 int[] arr = generateLargePrimes(j);
                 timeCSV(j, "Sequentional", i, () -> Main.sequentialPrime(arr));
             }
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2000; i++) {
                 int[] arr = generateLargePrimes(j);
                 timeCSV(j, "Thread_2", i, () -> Main.threadedPrime(arr, 2));
             }
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2000; i++) {
                 int[] arr = generateLargePrimes(j);
                 timeCSV(j, "Thread_8", i, () -> Main.threadedPrime(arr, 8));
             }
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2000; i++) {
                 int[] arr = generateLargePrimes(j);
                 timeCSV(j, "Thread_32", i, () -> Main.threadedPrime(arr, 32));
             }
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 2000; i++) {
                 int[] arr = generateLargePrimes(j);
                 timeCSV(j, "parallelStream", i, () -> Main.parallelPrime(arr));
             }
