@@ -45,18 +45,18 @@ public class PrimeTest {
     void testPerformanceLarge() throws IOException {
         System.out.println("Performance test:");
 
-        int[] sizes = {100_000, 500_000, 1_000_000};
+        int[] sizes = {5_000, 100_000, 500_000, 1_000_000};
 
         for (int size : sizes) {
             int[] arr = generateLargePrimes(size);
-
-            timeCSV(size, "Sequential", () -> Main.sequentialPrime(arr));
-            timeCSV(size, "Sequential", () -> Main.sequentialPrime(arr));
-            timeCSV(size, "Threads_4", () -> Main.threadedPrime(arr, 4));
-            timeCSV(size, "Threads_8", () -> Main.threadedPrime(arr, 8));
-            timeCSV(size, "Threads_16", () -> Main.threadedPrime(arr, 16));
-            timeCSV(size, "Threads_32", () -> Main.threadedPrime(arr, 32));
-            timeCSV(size, "parallelStream", () -> Main.parallelPrime(arr));
+            for(int i = 0; i < 100; i++) {
+                timeCSV(size, "Sequential", i, () -> Main.sequentialPrime(arr));
+//                timeCSV(size, "Threads_4", i, () -> Main.threadedPrime(arr, 4));
+//                timeCSV(size, "Threads_8", i, () -> Main.threadedPrime(arr, 8));
+//                timeCSV(size, "Threads_16", i, () -> Main.threadedPrime(arr, 16));
+//                timeCSV(size, "Threads_32", i, () -> Main.threadedPrime(arr, 32));
+//                timeCSV(size, "parallelStream", i, () -> Main.parallelPrime(arr));
+            }
         }
         closeCSV();
     }
