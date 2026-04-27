@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+group = 'ru.nsu.smolin'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.graphics']
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1'
+}
+
+application {
+    mainClass = 'ru.nsu.smolin.snake.client.ClientApp'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+// ─── createExe ────────────────────────────────────────────────────────────────
+// Создаёт client/build/snake-exe/Snake/Snake.exe с встроенным JRE.
+// Запускать только из Windows (jpackage создаёт бинарник под текущую платформу).
+// ─────────────────────────────────────────────────────────────────────────────
+task createExe {
+    group = 'distribution'
+    description = 'Builds Snake.exe with bundled JRE (Windows only)'
+    dependsOn jar
+
+    doLast {
+        // 1. Директории, где лежат javafx-*.jar — именно директории, не файлы
+        def jfxModulePath = configurations.runtimeClasspath.files
+            .findAll { it.name.contains('javafx') && it.name.endsWith('.jar') }
+            .collect { it.parentFile.absolutePath }
+            .unique()
+            .join(File.pathSeparator)
+
+        if (!jfxModulePath) {
+            throw new GradleException('JavaFX JARs not found in runtimeClasspath')
+        }
+
+        // 2. Входная директория: основной JAR + сторонние зависимости (без JavaFX)
+        def inputDir = file("${buildDir}/jpackage-input")
+        inputDir.mkdirs()
+        copy { from jar.archiveFile; into inputDir }
+        copy {
+            from configurations.runtimeClasspath.filter { !it.name.contains('javafx') }
+            into inputDir
+        }
+
+        // 3. Выходная директория
+        def outputDir = file("${buildDir}/snake-exe")
+        delete outputDir
+        outputDir.mkdirs()
+
+        // 4. Вызываем jpackage напрямую
+        def javaHome = System.getProperty('java.home')
+        exec {
+            commandLine "${javaHome}/bin/jpackage",
+                '--type',        'app-image',
+                '--name',        'Snake',
+                '--input',       inputDir.absolutePath,
+                '--main-jar',    jar.archiveFileName.get(),
+                '--main-class',  'ru.nsu.smolin.snake.client.ClientApp',
+                '--module-path', jfxModulePath,
+                '--add-modules', 'javafx.controls,javafx.graphics,javafx.base',
+                '--dest',        outputDir.absolutePath
+        }
+
+        println "\n✓ Готово: ${outputDir}/Snake/Snake.exe"
+    }
+}
