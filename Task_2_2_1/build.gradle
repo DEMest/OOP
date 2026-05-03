@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'idea'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+group = 'ru.nsu.smolin'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    implementation "com.typesafe.akka:akka-actor-typed_2.13:2.8.5"
+    implementation "com.typesafe.akka:akka-slf4j_2.13:2.8.5"
+    implementation "org.apache.kafka:kafka-clients:3.7.0"
+    implementation "com.google.code.gson:gson:2.10.1"
+    implementation "ch.qos.logback:logback-classic:1.4.14"
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+application {
+    mainClass = 'ru.nsu.smolin.Main'
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
