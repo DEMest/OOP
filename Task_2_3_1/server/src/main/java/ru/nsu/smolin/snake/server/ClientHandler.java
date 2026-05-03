@@ -1,9 +1,14 @@
 package ru.nsu.smolin.snake.server;
 
 import com.google.gson.Gson;
+import ru.nsu.smolin.snake.protocol.GameStateDto;
 import ru.nsu.smolin.snake.protocol.Msg;
 
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -41,28 +46,39 @@ public class ClientHandler implements Runnable {
     }
 
     private void handleMessage(Msg msg) {
-        if (msg == null || msg.type == null) return;
-        switch (msg.type) {
+        if (msg == null || msg.getType() == null) return;
+        switch (msg.getType()) {
             case "JOIN" -> {
-                String name = (msg.name != null && !msg.name.isBlank()) ? msg.name : "Player";
+                String name = (msg.getName() != null && !msg.getName().isBlank()) ? msg.getName() : "Player";
                 playerId = room.addPlayer(name, this);
                 Msg welcome = new Msg();
-                welcome.type = "WELCOME";
-                welcome.playerId = playerId;
-                welcome.gridW = room.getW();
-                welcome.gridH = room.getH();
-                send(gson.toJson(welcome) + "\n");
+                welcome.setType("WELCOME");
+                welcome.setPlayerId(playerId);
+                welcome.setGridW(room.getW());
+                welcome.setGridH(room.getH());
+                send(welcome);
                 System.out.println("Player joined: " + name + " (" + playerId + ")");
             }
             case "DIR" -> {
-                if (playerId != null && msg.dir != null) {
-                    room.setDirection(playerId, msg.dir);
+                if (playerId != null && msg.getDir() != null) {
+                    room.setDirection(playerId, msg.getDir());
                 }
             }
         }
     }
 
-    public synchronized void send(String json) {
+    void send(GameStateDto state) {
+        Msg msg = new Msg();
+        msg.setType("STATE");
+        msg.setState(state);
+        send(msg);
+    }
+
+    void send(Msg msg) {
+        sendRaw(gson.toJson(msg) + "\n");
+    }
+
+    private synchronized void sendRaw(String json) {
         if (out != null) {
             out.print(json);
             out.flush();

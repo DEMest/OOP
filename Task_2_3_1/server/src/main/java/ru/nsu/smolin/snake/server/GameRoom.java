@@ -1,6 +1,5 @@
 package ru.nsu.smolin.snake.server;
 
-import com.google.gson.Gson;
 import ru.nsu.smolin.snake.protocol.*;
 
 import java.util.*;
@@ -26,7 +25,6 @@ public class GameRoom {
     private final Map<String, Snake> snakes = new ConcurrentHashMap<>();  // playerId → змейка; ConcurrentHashMap т.к. addPlayer/removePlayer вызываются из потоков клиентов
     private final Map<String, ClientHandler> clients = new ConcurrentHashMap<>();  // playerId → обработчик клиента; нужен для рассылки состояния
     private final List<FoodDto> food = new ArrayList<>();  // еда на поле; изменяется только внутри gameTick (один поток)
-    private final Gson gson = new Gson();
     private final AtomicInteger idGen = new AtomicInteger(0);  // счётчик для уникальных ID игроков; AtomicInteger т.к. incrementAndGet вызывается из разных потоков
     private final Random rng = new Random();
     private long tick = 0;
@@ -53,7 +51,7 @@ public class GameRoom {
     public String addPlayer(String name, ClientHandler handler) {
         String id = "p" + idGen.incrementAndGet();
         Point pos = findSafeSpawn();
-        Snake snake = new Snake(id, name, pos.x, pos.y);
+        Snake snake = new Snake(id, name, pos.getX(), pos.getY());
         snakes.put(id, snake);
         clients.put(id, handler);
         return id;
@@ -82,7 +80,7 @@ public class GameRoom {
         tick++;
 
         // Удаляем протухшую еду
-        food.removeIf(f -> f.expiresAtTick > 0 && tick > f.expiresAtTick);
+        food.removeIf(f -> f.getExpiresAtTick() > 0 && tick > f.getExpiresAtTick());
 
         for (Snake s : snakes.values()) {
             if (!s.alive) {
@@ -98,13 +96,13 @@ public class GameRoom {
             if (!s.alive) continue;
             s.direction = s.pendingDir;
             Point head = s.head();
-            newHeads.put(s.playerId, new Point(head.x + s.direction.dx, head.y + s.direction.dy));
+            newHeads.put(s.playerId, new Point(head.getX() + s.direction.getDx(), head.getY() + s.direction.getDy()));
         }
 
         Set<String> died = new HashSet<>();
         for (Map.Entry<String, Point> e : newHeads.entrySet()) {
             Point p = e.getValue();
-            if (p.x < 0 || p.x >= W || p.y < 0 || p.y >= H) {
+            if (p.getX() < 0 || p.getX() >= W || p.getY() < 0 || p.getY() >= H) {
                 died.add(e.getKey());
             }
         }
@@ -112,7 +110,7 @@ public class GameRoom {
         for (Snake s : snakes.values()) {
             if (!s.alive || died.contains(s.playerId)) continue;
             Point newHead = newHeads.get(s.playerId);
-            boolean ate = food.removeIf(f -> f.x == newHead.x && f.y == newHead.y);
+            boolean ate = food.removeIf(f -> f.getX() == newHead.getX() && f.getY() == newHead.getY());
             if (ate) s.score++;
             s.segments.addFirst(newHead);
             if (!ate) s.segments.pollLast();
@@ -127,7 +125,7 @@ public class GameRoom {
                 List<Point> segs = new ArrayList<>(other.segments);
                 int startIdx = (other == s) ? 1 : 0;
                 for (int i = startIdx; i < segs.size(); i++) {
-                    if (segs.get(i).x == head.x && segs.get(i).y == head.y) {
+                    if (segs.get(i).getX() == head.getX() && segs.get(i).getY() == head.getY()) {
                         died.add(s.playerId);
                         break outer;
                     }
@@ -141,7 +139,7 @@ public class GameRoom {
             if (s != null) {
                 long expiry = tick + FOOD_EXPIRE_TICKS;
                 for (Point seg : s.segments) {
-                    food.add(new FoodDto(seg.x, seg.y, expiry));
+                    food.add(new FoodDto(seg.getX(), seg.getY(), expiry));
                 }
                 s.alive = false;
                 s.respawnTicks = RESPAWN_TICKS;
@@ -158,9 +156,9 @@ public class GameRoom {
     private void respawnSnake(Snake s) {
         Point pos = findSafeSpawn();
         s.segments.clear();
-        s.segments.addFirst(new Point(pos.x, pos.y));
-        s.segments.addLast(new Point(pos.x - 1, pos.y));
-        s.segments.addLast(new Point(pos.x - 2, pos.y));
+        s.segments.addFirst(new Point(pos.getX(), pos.getY()));
+        s.segments.addLast(new Point(pos.getX() - 1, pos.getY()));
+        s.segments.addLast(new Point(pos.getX() - 2, pos.getY()));
         s.direction = Direction.RIGHT;
         s.pendingDir = Direction.RIGHT;
         s.score = 0;
@@ -170,7 +168,7 @@ public class GameRoom {
     private Point findSafeSpawn() {
         Set<String> occupied = new HashSet<>();
         for (Snake s : snakes.values()) {
-            for (Point seg : s.segments) occupied.add(seg.x + "," + seg.y);
+            for (Point seg : s.segments) occupied.add(seg.getX() + "," + seg.getY());
         }
         int x, y, attempts = 0;
         do {
@@ -188,9 +186,9 @@ public class GameRoom {
     private void spawnFood() {
         Set<String> occupied = new HashSet<>();
         for (Snake s : snakes.values()) {
-            for (Point seg : s.segments) occupied.add(seg.x + "," + seg.y);
+            for (Point seg : s.segments) occupied.add(seg.getX() + "," + seg.getY());
         }
-        for (FoodDto f : food) occupied.add(f.x + "," + f.y);
+        for (FoodDto f : food) occupied.add(f.getX() + "," + f.getY());
         int x, y, attempts = 0;
         do {
             x = rng.nextInt(W);
@@ -202,30 +200,17 @@ public class GameRoom {
 
     private void broadcastState() {
         GameStateDto state = buildState();
-        Msg msg = new Msg();
-        msg.type = "STATE";
-        msg.state = state;
-        String json = gson.toJson(msg) + "\n";
         for (ClientHandler handler : clients.values()) {
-            handler.send(json);
+            handler.send(state);
         }
     }
 
     private GameStateDto buildState() {
-        GameStateDto dto = new GameStateDto();
-        dto.tick = tick;
-        dto.food = new ArrayList<>(food);
-        dto.players = snakes.values().stream().map(s -> {
-            PlayerDto p = new PlayerDto();
-            p.id = s.playerId;
-            p.name = s.playerName;
-            p.score = s.score;
-            p.alive = s.alive;
-            p.segments = new ArrayList<>(s.segments);
-            p.direction = s.direction;
-            return p;
-        }).collect(Collectors.toList());
-        return dto;
+        List<PlayerDto> players = snakes.values().stream()
+            .map(s -> new PlayerDto(s.playerId, s.playerName, s.score, s.alive,
+                                    new ArrayList<>(s.segments), s.direction))
+            .collect(Collectors.toList());
+        return new GameStateDto(players, new ArrayList<>(food), tick);
     }
 
     public int getW() { return W; }

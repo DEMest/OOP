@@ -54,8 +54,8 @@ public class GameScene {
 
     public void show() {
         Msg join = new Msg();
-        join.type = "JOIN";
-        join.name = playerName;
+        join.setType("JOIN");
+        join.setName(playerName);
         conn.send(join);
         conn.startListening(
             this::handleMessage,
@@ -64,14 +64,14 @@ public class GameScene {
     }
 
     private void handleMessage(Msg msg) {
-        switch (msg.type) {
+        switch (msg.getType()) {
             case "WELCOME" -> Platform.runLater(() -> {
-                myId  = msg.playerId;
-                gridW = msg.gridW;
-                gridH = msg.gridH;
+                myId  = msg.getPlayerId();
+                gridW = msg.getGridW();
+                gridH = msg.getGridH();
                 setupScene();
             });
-            case "STATE" -> lastState = msg.state;
+            case "STATE" -> lastState = msg.getState();
         }
     }
 
@@ -89,8 +89,8 @@ public class GameScene {
             Direction dir = keyToDir(e.getCode());
             if (dir != null) {
                 Msg msg = new Msg();
-                msg.type = "DIR";
-                msg.dir = dir;
+                msg.setType("DIR");
+                msg.setDir(dir);
                 conn.send(msg);
             }
         });
@@ -125,19 +125,19 @@ public class GameScene {
     // --- camera & coordinate mapping ----------------------------------------
 
     private PlayerDto findMyPlayer(GameStateDto state) {
-        if (state == null || state.players == null || myId == null) return null;
-        for (PlayerDto p : state.players) {
-            if (myId.equals(p.id)) return p;
+        if (state == null || state.getPlayers() == null || myId == null) return null;
+        for (PlayerDto p : state.getPlayers()) {
+            if (myId.equals(p.getId())) return p;
         }
         return null;
     }
 
     private void updateCamera(GameStateDto state) {
         PlayerDto me = findMyPlayer(state);
-        if (me == null || me.segments == null || me.segments.isEmpty()) return;
-        Point head = me.segments.get(0);
-        double targetX = head.x + 0.5;
-        double targetY = head.y + 0.5;
+        if (me == null || me.getSegments() == null || me.getSegments().isEmpty()) return;
+        Point head = me.getSegments().get(0);
+        double targetX = head.getX() + 0.5;
+        double targetY = head.getY() + 0.5;
         if (cameraX < 0) {
             cameraX = targetX;
             cameraY = targetY;
@@ -212,15 +212,15 @@ public class GameScene {
         gc.strokeRect(px(0), py(0), gridW * c, gridH * c);
 
         // Food
-        if (state.food != null) {
-            for (FoodDto f : state.food) {
-                if (f.x < minCol - 1 || f.x > maxCol || f.y < minRow - 1 || f.y > maxRow) continue;
-                double fx = px(f.x), fy = py(f.y);
+        if (state.getFood() != null) {
+            for (FoodDto f : state.getFood()) {
+                if (f.getX() < minCol - 1 || f.getX() > maxCol || f.getY() < minRow - 1 || f.getY() > maxRow) continue;
+                double fx = px(f.getX()), fy = py(f.getY());
 
-                boolean temporal = f.expiresAtTick > 0;
+                boolean temporal = f.getExpiresAtTick() > 0;
                 double alpha = 1.0;
-                if (temporal && state.tick > 0) {
-                    long ticksLeft = f.expiresAtTick - state.tick;
+                if (temporal && state.getTick() > 0) {
+                    long ticksLeft = f.getExpiresAtTick() - state.getTick();
                     // Мигание в последние ~3 сек (20 тиков)
                     if (ticksLeft < 20) {
                         alpha = (ticksLeft % 4 < 2) ? 0.3 : 1.0;
@@ -242,40 +242,40 @@ public class GameScene {
         }
 
         // Snakes
-        if (state.players != null) {
-            for (PlayerDto p : state.players) {
-                if (p.segments == null || p.segments.isEmpty()) continue;
-                Color base = getColor(p.id);
-                if (!p.alive) base = base.deriveColor(0, 0.3, 0.35, 0.5);
+        if (state.getPlayers() != null) {
+            for (PlayerDto p : state.getPlayers()) {
+                if (p.getSegments() == null || p.getSegments().isEmpty()) continue;
+                Color base = getColor(p.getId());
+                if (!p.isAlive()) base = base.deriveColor(0, 0.3, 0.35, 0.5);
 
-                for (int i = p.segments.size() - 1; i >= 0; i--) {
-                    Point seg = p.segments.get(i);
-                    if (seg.x < minCol - 1 || seg.x > maxCol || seg.y < minRow - 1 || seg.y > maxRow) continue;
+                for (int i = p.getSegments().size() - 1; i >= 0; i--) {
+                    Point seg = p.getSegments().get(i);
+                    if (seg.getX() < minCol - 1 || seg.getX() > maxCol || seg.getY() < minRow - 1 || seg.getY() > maxRow) continue;
                     boolean isHead = (i == 0);
                     double margin = isHead ? c * 0.05 : c * 0.1;
-                    double brightness = isHead ? 1.0 : Math.max(0.55, 1.0 - (double) i / p.segments.size() * 0.4);
+                    double brightness = isHead ? 1.0 : Math.max(0.55, 1.0 - (double) i / p.getSegments().size() * 0.4);
                     gc.setFill(isHead ? base.brighter() : base.deriveColor(0, 1, brightness, 1));
                     double r = Math.max(2, c * 0.25);
-                    gc.fillRoundRect(px(seg.x) + margin, py(seg.y) + margin,
+                    gc.fillRoundRect(px(seg.getX()) + margin, py(seg.getY()) + margin,
                         c - 2 * margin, c - 2 * margin, r, r);
                 }
 
                 // Eyes
-                Point head = p.segments.get(0);
-                if (p.alive && head.x >= minCol - 1 && head.x <= maxCol && head.y >= minRow - 1 && head.y <= maxRow) {
-                    drawEyes(gc, head, p.direction, c);
+                Point head = p.getSegments().get(0);
+                if (p.isAlive() && head.getX() >= minCol - 1 && head.getX() <= maxCol && head.getY() >= minRow - 1 && head.getY() <= maxRow) {
+                    drawEyes(gc, head, p.getDirection(), c);
                 }
 
                 // Name label
-                if (head.x >= minCol - 2 && head.x <= maxCol + 2 && head.y >= minRow - 2 && head.y <= maxRow + 2) {
-                    double labelY = py(head.y) - c * 0.15;
+                if (head.getX() >= minCol - 2 && head.getX() <= maxCol + 2 && head.getY() >= minRow - 2 && head.getY() <= maxRow + 2) {
+                    double labelY = py(head.getY()) - c * 0.15;
                     double fontSize = Math.max(8, c * 0.45);
                     gc.setFont(Font.font("Monospace", FontWeight.BOLD, fontSize));
-                    String label = (p.id.equals(myId) ? "▶ " : "") + p.name + "  " + p.score;
+                    String label = (p.getId().equals(myId) ? "▶ " : "") + p.getName() + "  " + p.getScore();
                     gc.setFill(Color.rgb(0, 0, 0, 0.65));
-                    gc.fillText(label, px(head.x) + 1, labelY + 1);
-                    gc.setFill(p.id.equals(myId) ? Color.WHITE : Color.rgb(200, 200, 210));
-                    gc.fillText(label, px(head.x), labelY);
+                    gc.fillText(label, px(head.getX()) + 1, labelY + 1);
+                    gc.setFill(p.getId().equals(myId) ? Color.WHITE : Color.rgb(200, 200, 210));
+                    gc.fillText(label, px(head.getX()), labelY);
                 }
             }
         }
@@ -285,8 +285,8 @@ public class GameScene {
     }
 
     private void drawEyes(GraphicsContext gc, Point head, Direction dir, double c) {
-        double cx = px(head.x) + c / 2;
-        double cy = py(head.y) + c / 2;
+        double cx = px(head.getX()) + c / 2;
+        double cy = py(head.getY()) + c / 2;
         double r = Math.max(1.5, c * 0.1);
         double d = c * 0.2;
         double[][] offsets = switch (dir != null ? dir : Direction.RIGHT) {
@@ -301,9 +301,9 @@ public class GameScene {
 
     private void drawScoreboard(GraphicsContext gc, double c) {
         GameStateDto state = lastState;
-        if (state == null || state.players == null || state.players.isEmpty()) return;
-        List<PlayerDto> sorted = new ArrayList<>(state.players);
-        sorted.sort((a, b) -> b.score - a.score);
+        if (state == null || state.getPlayers() == null || state.getPlayers().isEmpty()) return;
+        List<PlayerDto> sorted = new ArrayList<>(state.getPlayers());
+        sorted.sort((a, b) -> b.getScore() - a.getScore());
 
         double fontSize = Math.max(10, 14);
         double rowH = fontSize + 4;
@@ -318,12 +318,12 @@ public class GameScene {
 
         for (int i = 0; i < sorted.size(); i++) {
             PlayerDto p = sorted.get(i);
-            Color col = getColor(p.id);
-            if (!p.alive) col = col.deriveColor(0, 0.4, 0.5, 0.7);
+            Color col = getColor(p.getId());
+            if (!p.isAlive()) col = col.deriveColor(0, 0.4, 0.5, 0.7);
             gc.setFill(col);
             int maxName = 10;
-            String line = (i + 1) + ". " + truncate(p.name, maxName) + " " + p.score;
-            if (p.id.equals(myId)) line = ">" + line.substring(1);
+            String line = (i + 1) + ". " + truncate(p.getName(), maxName) + " " + p.getScore();
+            if (p.getId().equals(myId)) line = ">" + line.substring(1);
             gc.fillText(line, sbX + 5, sbY + fontSize + i * rowH);
         }
     }

@@ -11,6 +11,22 @@ import javafx.stage.Stage;
  * При успешном подключении переходит к {@link GameScene}.
  */
 public class ConnectScene {
+    private static final String DEFAULT_HOST = "37.195.117.62";
+    private static final String DEFAULT_PORT = "6769";
+    private static final String DEFAULT_NAME = "Player";
+    private static final String CONNECT_BUTTON_TEXT = "Connect";
+    private static final String HOST_LABEL_TEXT = "Server host:";
+    private static final String PORT_LABEL_TEXT = "Port:";
+    private static final String NAME_LABEL_TEXT = "Your name:";
+    private static final String WINDOW_TITLE = "Snake — Connect";
+    private static final String STATUS_STYLE = "-fx-text-fill: red;";
+    private static final String BOX_STYLE = "-fx-background-color: #1a1a2e; -fx-text-fill: white;";
+    private static final String LABEL_STYLE = "-fx-text-fill: #aaaacc;";
+    private static final double BOX_SPACING = 8;
+    private static final double BOX_PADDING = 20;
+    private static final double SCENE_WIDTH = 280;
+    private static final double SCENE_HEIGHT = 310;
+
     private final Stage stage;
 
     public ConnectScene(Stage stage) {
@@ -18,31 +34,31 @@ public class ConnectScene {
     }
 
     public void show() {
-        TextField hostField = new TextField("37.195.117.62");
-        TextField portField = new TextField("6769");
-        TextField nameField = new TextField("Player");
-        Button connectBtn = new Button("Connect");
+        TextField hostField = new TextField(DEFAULT_HOST);
+        TextField portField = new TextField(DEFAULT_PORT);
+        TextField nameField = new TextField(DEFAULT_NAME);
+        Button connectBtn = new Button(CONNECT_BUTTON_TEXT);
         Label statusLabel = new Label();
-        statusLabel.setStyle("-fx-text-fill: red;");
+        statusLabel.setStyle(STATUS_STYLE);
 
         connectBtn.setDefaultButton(true);
         connectBtn.setOnAction(e -> tryConnect(hostField.getText().trim(),
             portField.getText().trim(), nameField.getText().trim(), statusLabel));
 
-        VBox box = new VBox(8,
-            new Label("Server host:"), hostField,
-            new Label("Port:"), portField,
-            new Label("Your name:"), nameField,
+        VBox box = new VBox(BOX_SPACING,
+            new Label(HOST_LABEL_TEXT), hostField,
+            new Label(PORT_LABEL_TEXT), portField,
+            new Label(NAME_LABEL_TEXT), nameField,
             connectBtn, statusLabel
         );
-        box.setPadding(new Insets(20));
-        box.setStyle("-fx-background-color: #1a1a2e; -fx-text-fill: white;");
+        box.setPadding(new Insets(BOX_PADDING));
+        box.setStyle(BOX_STYLE);
         box.getChildren().stream()
             .filter(n -> n instanceof Label)
-            .forEach(n -> n.setStyle("-fx-text-fill: #aaaacc;"));
+            .forEach(n -> n.setStyle(LABEL_STYLE));
 
-        stage.setTitle("Snake — Connect");
-        stage.setScene(new Scene(box, 280, 310));
+        stage.setTitle(WINDOW_TITLE);
+        stage.setScene(new Scene(box, SCENE_WIDTH, SCENE_HEIGHT));
         stage.show();
     }
 

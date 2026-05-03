@@ -16,6 +16,8 @@ public class ServerConnection {
     private final PrintWriter out;
     private final BufferedReader in;
     private final Gson gson = new Gson();
+    private volatile boolean running = true;
+    private Thread readerThread;
 
     public ServerConnection(String host, int port) throws IOException {
         socket = new Socket(host, port);
@@ -29,21 +31,23 @@ public class ServerConnection {
     }
 
     public void startListening(Consumer<Msg> onMessage, Runnable onDisconnect) {
-        Thread reader = new Thread(() -> {
+        readerThread = new Thread(() -> {
             try {
                 String line;
-                while ((line = in.readLine()) != null) {
+                while (running && (line = in.readLine()) != null) {
                     Msg msg = gson.fromJson(line, Msg.class);
                     if (msg != null) onMessage.accept(msg);
                 }
             } catch (IOException ignored) {}
             onDisconnect.run();
         }, "server-reader");
-        reader.setDaemon(true);
-        reader.start();
+        readerThread.setDaemon(true);
+        readerThread.start();
     }
 
     public void close() {
+        running = false;
         try { socket.close(); } catch (IOException ignored) {}
+        if (readerThread != null) readerThread.interrupt();
     }
 }

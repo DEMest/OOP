@@ -1,13 +1,14 @@
 FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /build
 
-# Copy gradle wrapper and server sources
+# Copy gradle wrapper and sources for server + shared protocol module
 COPY gradlew ./
 COPY gradle/ gradle/
+COPY protocol/ protocol/
 COPY server/ server/
 
-# Create minimal settings for server-only build
-RUN printf 'rootProject.name = "snake-server"\ninclude "server"\n' > settings.gradle
+# Create minimal settings for server-only build (no client)
+RUN printf 'rootProject.name = "snake-server"\ninclude "protocol", "server"\n' > settings.gradle
 RUN chmod +x gradlew
 RUN ./gradlew :server:shadowJar --no-daemon
 
