@@ -25,8 +25,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class Main {
     private final Config config;
-    private final CustomBlockingQueue<Order> orderQueue;
-    private final BoundedBuffer warehouse;
+    private final CustomBlockingQueue<Order> orderQueue = new CustomBlockingQueue<>(100);
+    private final BoundedBuffer warehouse = new BoundedBuffer(config.warehouseCapacity);
     private final List<Baker> bakers = new ArrayList<>();
     private final List<Courier> couriers = new ArrayList<>();
     private final AtomicBoolean running = new AtomicBoolean(true);
@@ -34,8 +34,6 @@ public class Main {
 
     public Main(Config config) {
         this.config = config;
-        this.orderQueue = new CustomBlockingQueue<>(100);
-        this.warehouse = new BoundedBuffer(config.warehouseCapacity);
     }
 
     /**
