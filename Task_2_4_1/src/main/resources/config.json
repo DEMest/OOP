@@ -1,0 +1,14 @@
+{
+  "simulationTimeMs": 30000,
+  "orderRateMs": 2000,
+  "warehouseCapacity": 5,
+  "bakers": [
+    {"id": 1, "cookingTimeMs": 5000},
+    {"id": 2, "cookingTimeMs": 7000}
+  ],
+  "couriers": [
+    {"id": 1, "trunkSize": 3},
+    {"id": 2, "trunkSize": 2}
+  ],
+  "shutdownMode": "GRACEFUL"
+}
