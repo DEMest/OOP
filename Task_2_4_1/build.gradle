@@ -1,0 +1,86 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'jacoco'
+    id 'idea'
+    id 'application'
+}
+
+group = 'ru.nsu.smolin'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+// Workaround: project path contains Cyrillic, which breaks worker JVM classloading on
+// Windows (sun.jnu.encoding is read at JVM startup and can't be overridden after).
+// Move build outputs to an ASCII path so the test classpath is readable.
+layout.buildDirectory.fileValue(new File('C:/gradle-build/Task_2_4_1'))
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.22'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.apache.groovy:groovy-test-junit5:4.0.22'
+}
+
+application {
+    mainClass = 'ru.nsu.smolin.checker.Main'
+    applicationName = 'oop-checker'
+    applicationDefaultJvmArgs = [
+        '-Dfile.encoding=UTF-8',
+        '-Dstdout.encoding=UTF-8',
+        '-Dstderr.encoding=UTF-8'
+    ]
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/groovy'
+            srcDir 'src/main/java'
+        }
+        java {
+            srcDirs = []
+        }
+    }
+    test {
+        groovy {
+            srcDir 'src/test/groovy'
+            srcDir 'src/test/java'
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+compileGroovy.options.encoding = 'UTF-8'
+compileTestGroovy.options.encoding = 'UTF-8'
+compileGroovy.groovyOptions.encoding = 'UTF-8'
+compileTestGroovy.groovyOptions.encoding = 'UTF-8'
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
