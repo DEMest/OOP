@@ -4,8 +4,12 @@ import org.codehaus.groovy.control.CompilerConfiguration
 import ru.nsu.smolin.checker.model.CheckerConfig
 import java.nio.file.Path
 
-// Точка входа в загрузку Groovy DSL-конфигурации чекера.
-// Парсит checker.groovy (вместе со всеми apply-from импортами) в единый CheckerConfig.
+import static java.nio.file.Files.isRegularFile
+
+/**
+ * Точка входа в загрузку Groovy DSL-конфигурации чекера.
+ * Парсит checker.groovy (вместе со всеми apply-from импортами) в единый CheckerConfig.
+**/
 class ConfigLoader {
     // Загружает скрипт и возвращает неизменяемую конфигурацию.
     static CheckerConfig load(Path scriptPath) {
@@ -14,10 +18,8 @@ class ConfigLoader {
         ctx.toConfig()
     }
 
-    // Выполняет указанный скрипт в существующем контексте.
-    // Используется самим apply-from для исполнения вложенных файлов в общем накопителе.
     static void executeInto(Path scriptPath, CheckerContext ctx) {
-        if (!java.nio.file.Files.isRegularFile(scriptPath)) {
+        if (!isRegularFile(scriptPath)) {
             throw new IllegalArgumentException("config not found: $scriptPath")
         }
         CompilerConfiguration cc = new CompilerConfiguration()

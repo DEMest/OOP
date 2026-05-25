@@ -1,6 +1,12 @@
 package ru.nsu.smolin.checker.dsl
 
-import ru.nsu.smolin.checker.model.*
+import ru.nsu.smolin.checker.model.Assignment
+import ru.nsu.smolin.checker.model.Bonus
+import ru.nsu.smolin.checker.model.CheckerConfig
+import ru.nsu.smolin.checker.model.Checkpoint
+import ru.nsu.smolin.checker.model.Group
+import ru.nsu.smolin.checker.model.Settings
+import ru.nsu.smolin.checker.model.Task
 
 class CheckerContext {
     Map<String, Task> tasks = [:]
